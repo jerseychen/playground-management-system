@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Layout, Menu, Breadcrumb, Input, Badge, Avatar, Dropdown, Card, Row, Col, Statistic, DatePicker, Button, Tabs, Table, List } from 'antd';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Layout, Menu, Badge, Avatar, Dropdown, Button, Tabs, message } from 'antd';
 import { 
   HomeOutlined, 
   ShoppingCartOutlined, 
@@ -9,118 +9,147 @@ import {
   BarChartOutlined,
   SettingOutlined,
   AppstoreOutlined,
-  SearchOutlined,
   BellOutlined,
   QuestionCircleOutlined,
   ExportOutlined,
   MoreOutlined,
   DownOutlined,
   ReloadOutlined,
-  ArrowUpOutlined,
-  ArrowDownOutlined
+  CloseOutlined,
+  ShopOutlined,
+  SearchOutlined
 } from '@ant-design/icons';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import type { MenuProps } from 'antd';
 
 const { Header, Sider, Content } = Layout;
-const { Search } = Input;
-const { RangePicker } = DatePicker;
-const { TabPane } = Tabs;
 
 type MenuItem = Required<MenuProps>['items'][number];
+
+// 标签页项接口
+interface TabItem {
+  key: string;
+  label: string;
+  icon?: React.ReactNode;
+  closable?: boolean;
+}
+
+// 路由映射表
+const routeMap: Record<string, { label: string; icon?: React.ReactNode }> = {
+  '/dashboard': { label: '首页', icon: <HomeOutlined /> },
+  '/ticket/sale': { label: '售票', icon: <ShoppingCartOutlined /> },
+  '/ticket/query': { label: '票务查询', icon: <SearchOutlined /> },
+  '/ticket/package': { label: '套票管理', icon: <GiftOutlined /> },
+  '/ticket/stats': { label: '票务统计', icon: <BarChartOutlined /> },
+  '/member/list': { label: '会员列表', icon: <UserOutlined /> },
+  '/member/points': { label: '积分管理', icon: <GiftOutlined /> },
+  '/member/marketing': { label: '会员营销', icon: <GiftOutlined /> },
+  '/member/analysis': { label: '会员分析', icon: <BarChartOutlined /> },
+  '/product/list': { label: '商品列表', icon: <ShoppingOutlined /> },
+  '/product/inventory': { label: '库存管理', icon: <AppstoreOutlined /> },
+  '/product/purchase': { label: '采购管理', icon: <ShoppingCartOutlined /> },
+  '/device/monitor': { label: '设备监控', icon: <AppstoreOutlined /> },
+  '/device/maintenance': { label: '设备维护', icon: <SettingOutlined /> },
+  '/device/alert': { label: '报警管理', icon: <BellOutlined /> },
+  '/finance/daily': { label: '营业日报', icon: <BarChartOutlined /> },
+  '/finance/reconciliation': { label: '财务对账', icon: <ShoppingCartOutlined /> },
+  '/finance/reports': { label: '财务报表', icon: <BarChartOutlined /> },
+  '/settings/basic': { label: '基础设置', icon: <SettingOutlined /> },
+  '/settings/permission': { label: '权限管理', icon: <UserOutlined /> },
+};
+
+// 获取路由信息
+const getRouteInfo = (path: string): { label: string; icon?: React.ReactNode } => {
+  if (routeMap[path]) {
+    return routeMap[path];
+  }
+  // 尝试匹配父路径
+  const parts = path.split('/').filter(Boolean);
+  for (let i = parts.length; i > 0; i--) {
+    const parentPath = '/' + parts.slice(0, i).join('/');
+    if (routeMap[parentPath]) {
+      return routeMap[parentPath];
+    }
+  }
+  return { label: '未命名页面', icon: <HomeOutlined /> };
+};
 
 const MainLayout: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [collapsed, setCollapsed] = useState(false);
-  const [timeRange, setTimeRange] = useState('today');
+  
+  // 标签页状态
+  const [tabs, setTabs] = useState<TabItem[]>([
+    { key: '/dashboard', label: '首页', icon: <HomeOutlined />, closable: false }
+  ]);
+  const [activeKey, setActiveKey] = useState('/dashboard');
 
-  // 一级菜单 - 按世软云后台结构
-  const menuItems: MenuItem[] = [
-    {
-      key: 'dashboard',
-      icon: <HomeOutlined />,
-      label: '全部功能',
-      onClick: () => navigate('/dashboard')
-    },
-    {
-      key: 'sales',
-      icon: <ShoppingCartOutlined />,
-      label: '销售管理',
-      children: [
-        { key: 'sales-order', label: '销售订单', onClick: () => navigate('/sales/order') },
-        { key: 'sales-verify', label: '核销订单', onClick: () => navigate('/sales/verify') },
-        { key: 'sales-exchange', label: '兑换订单', onClick: () => navigate('/sales/exchange') },
-        { key: 'sales-recycle', label: '回收订单', onClick: () => navigate('/sales/recycle') },
-        { key: 'sales-other', label: '其它收支', onClick: () => navigate('/sales/other') }
-      ]
-    },
-    {
-      key: 'product',
-      icon: <ShoppingOutlined />,
-      label: '商品管理',
-      children: [
-        { key: 'product-coin', label: '游戏币套餐', onClick: () => navigate('/product/coin') },
-        { key: 'product-limited', label: '限定币套餐', onClick: () => navigate('/product/limited') },
-        { key: 'product-marble', label: '弹珠套餐', onClick: () => navigate('/product/marble') },
-        { key: 'product-ticket', label: '游乐套票', onClick: () => navigate('/product/ticket') },
-        { key: 'product-retail', label: '零售商品', onClick: () => navigate('/product/retail') },
-        { key: 'product-combo', label: '组合商品', onClick: () => navigate('/product/combo') }
-      ]
-    },
-    {
-      key: 'marketing',
-      icon: <GiftOutlined />,
-      label: '营销管理',
-      children: [
-        { key: 'marketing-activity', label: '营销活动', onClick: () => navigate('/marketing/activity') },
-        { key: 'marketing-coupon', label: '优惠券', onClick: () => navigate('/marketing/coupon') },
-        { key: 'marketing-member', label: '会员营销', onClick: () => navigate('/marketing/member') }
-      ]
-    },
-    {
-      key: 'member',
-      icon: <UserOutlined />,
-      label: '会员体系',
-      children: [
-        { key: 'member-list', label: '会员档案', onClick: () => navigate('/member/list') },
-        { key: 'member-level', label: '会员等级', onClick: () => navigate('/member/level') },
-        { key: 'member-points', label: '积分管理', onClick: () => navigate('/member/points') },
-        { key: 'member-analysis', label: '会员分析', onClick: () => navigate('/member/analysis') }
-      ]
-    },
-    {
-      key: 'report',
-      icon: <BarChartOutlined />,
-      label: '报表中心',
-      children: [
-        { key: 'report-revenue', label: '营收报表', onClick: () => navigate('/report/revenue') },
-        { key: 'report-coin', label: '耗币报表', onClick: () => navigate('/report/coin') },
-        { key: 'report-member', label: '会员报表', onClick: () => navigate('/report/member') },
-        { key: 'report-device', label: '设备报表', onClick: () => navigate('/report/device') }
-      ]
-    },
-    {
-      key: 'device',
-      icon: <AppstoreOutlined />,
-      label: '设备管理',
-      children: [
-        { key: 'device-monitor', label: '设备监控', onClick: () => navigate('/device/monitor') },
-        { key: 'device-maintenance', label: '维护记录', onClick: () => navigate('/device/maintenance') },
-        { key: 'device-alert', label: '报警管理', onClick: () => navigate('/device/alert') }
-      ]
-    },
-    {
-      key: 'settings',
-      icon: <SettingOutlined />,
-      label: '系统管理',
-      children: [
-        { key: 'settings-basic', label: '基础配置', onClick: () => navigate('/settings/basic') },
-        { key: 'settings-permission', label: '权限管理', onClick: () => navigate('/settings/permission') },
-        { key: 'settings-store', label: '门店管理', onClick: () => navigate('/settings/store') }
-      ]
+  // 监听路由变化，自动添加标签页
+  useEffect(() => {
+    const currentPath = location.pathname;
+    setActiveKey(currentPath);
+
+    // 检查是否已存在该标签
+    const existingTab = tabs.find(tab => tab.key === currentPath);
+    if (!existingTab && currentPath !== '/') {
+      const routeInfo = getRouteInfo(currentPath);
+      const newTab: TabItem = {
+        key: currentPath,
+        label: routeInfo.label,
+        icon: routeInfo.icon,
+        closable: true,
+      };
+      setTabs(prev => [...prev, newTab]);
     }
-  ];
+  }, [location.pathname]);
+
+  // 切换标签页
+  const handleTabChange = (key: string) => {
+    navigate(key);
+  };
+
+  // 关闭标签页
+  const handleTabClose = (targetKey: string) => {
+    const targetIndex = tabs.findIndex(tab => tab.key === targetKey);
+    const newTabs = tabs.filter(tab => tab.key !== targetKey);
+    
+    // 如果关闭的是当前标签，切换到相邻标签
+    if (targetKey === activeKey && newTabs.length > 0) {
+      const newActiveKey = newTabs[Math.min(targetIndex, newTabs.length - 1)].key;
+      navigate(newActiveKey);
+    }
+    
+    setTabs(newTabs);
+  };
+
+  // 关闭其他标签页
+  const handleCloseOthers = () => {
+    const homeTab = tabs.find(tab => tab.key === '/dashboard');
+    const currentTab = tabs.find(tab => tab.key === activeKey);
+    
+    if (homeTab && currentTab) {
+      if (activeKey === '/dashboard') {
+        setTabs([homeTab]);
+      } else {
+        setTabs([homeTab, { ...currentTab, closable: true }]);
+      }
+    }
+  };
+
+  // 关闭所有标签页
+  const handleCloseAll = () => {
+    const homeTab = tabs.find(tab => tab.key === '/dashboard');
+    if (homeTab) {
+      setTabs([homeTab]);
+      navigate('/dashboard');
+    }
+  };
+
+  // 刷新当前页面
+  const handleRefresh = () => {
+    window.location.reload();
+  };
 
   // 用户菜单
   const userMenuItems = [
@@ -130,6 +159,82 @@ const MainLayout: React.FC = () => {
     { key: 'logout', label: '退出登录' }
   ];
 
+  // 菜单点击处理
+  const handleMenuClick = (path: string) => {
+    navigate(path);
+  };
+
+  // 菜单项配置
+  const menuItems: MenuItem[] = [
+    {
+      key: 'dashboard',
+      icon: <HomeOutlined />,
+      label: '首页',
+      onClick: () => handleMenuClick('/dashboard')
+    },
+    {
+      key: 'ticket',
+      icon: <ShoppingCartOutlined />,
+      label: '票务管理',
+      children: [
+        { key: 'ticket-sale', label: '售票', onClick: () => handleMenuClick('/ticket/sale') },
+        { key: 'ticket-query', label: '票务查询', onClick: () => handleMenuClick('/ticket/query') },
+        { key: 'ticket-package', label: '套票管理', onClick: () => handleMenuClick('/ticket/package') },
+        { key: 'ticket-stats', label: '票务统计', onClick: () => handleMenuClick('/ticket/stats') },
+      ]
+    },
+    {
+      key: 'member',
+      icon: <UserOutlined />,
+      label: '会员管理',
+      children: [
+        { key: 'member-list', label: '会员列表', onClick: () => handleMenuClick('/member/list') },
+        { key: 'member-points', label: '积分管理', onClick: () => handleMenuClick('/member/points') },
+        { key: 'member-marketing', label: '会员营销', onClick: () => handleMenuClick('/member/marketing') },
+        { key: 'member-analysis', label: '会员分析', onClick: () => handleMenuClick('/member/analysis') },
+      ]
+    },
+    {
+      key: 'product',
+      icon: <ShoppingOutlined />,
+      label: '商品管理',
+      children: [
+        { key: 'product-list', label: '商品列表', onClick: () => handleMenuClick('/product/list') },
+        { key: 'product-inventory', label: '库存管理', onClick: () => handleMenuClick('/product/inventory') },
+        { key: 'product-purchase', label: '采购管理', onClick: () => handleMenuClick('/product/purchase') },
+      ]
+    },
+    {
+      key: 'device',
+      icon: <AppstoreOutlined />,
+      label: '设备管理',
+      children: [
+        { key: 'device-monitor', label: '设备监控', onClick: () => handleMenuClick('/device/monitor') },
+        { key: 'device-maintenance', label: '设备维护', onClick: () => handleMenuClick('/device/maintenance') },
+        { key: 'device-alert', label: '报警管理', onClick: () => handleMenuClick('/device/alert') },
+      ]
+    },
+    {
+      key: 'finance',
+      icon: <BarChartOutlined />,
+      label: '财务管理',
+      children: [
+        { key: 'finance-daily', label: '营业日报', onClick: () => handleMenuClick('/finance/daily') },
+        { key: 'finance-reconciliation', label: '财务对账', onClick: () => handleMenuClick('/finance/reconciliation') },
+        { key: 'finance-reports', label: '财务报表', onClick: () => handleMenuClick('/finance/reports') },
+      ]
+    },
+    {
+      key: 'settings',
+      icon: <SettingOutlined />,
+      label: '系统设置',
+      children: [
+        { key: 'settings-basic', label: '基础设置', onClick: () => handleMenuClick('/settings/basic') },
+        { key: 'settings-permission', label: '权限管理', onClick: () => handleMenuClick('/settings/permission') },
+      ]
+    },
+  ];
+
   // 获取当前选中的菜单key
   const getSelectedKey = () => {
     const path = location.pathname;
@@ -137,6 +242,35 @@ const MainLayout: React.FC = () => {
     const parts = path.split('/');
     if (parts.length >= 2) return [parts[1]];
     return ['dashboard'];
+  };
+
+  // 标签页右键菜单
+  const tabBarExtraContent = {
+    right: (
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, paddingRight: 16 }}>
+        <Button 
+          type="text" 
+          size="small" 
+          icon={<ReloadOutlined />}
+          onClick={handleRefresh}
+        >
+          刷新
+        </Button>
+        <Dropdown
+          menu={{
+            items: [
+              { key: 'closeOthers', label: '关闭其他', onClick: handleCloseOthers },
+              { key: 'closeAll', label: '关闭全部', onClick: handleCloseAll },
+            ]
+          }}
+          placement="bottomRight"
+        >
+          <Button type="text" size="small" icon={<MoreOutlined />}>
+            更多
+          </Button>
+        </Dropdown>
+      </div>
+    )
   };
 
   return (
@@ -183,242 +317,86 @@ const MainLayout: React.FC = () => {
           borderBottom: '1px solid #f0f0f0',
           boxShadow: '0 2px 8px rgba(0,0,0,0.06)'
         }}>
-          {/* 左侧：面包屑 */}
-          <Breadcrumb>
-            <Breadcrumb.Item>
-              <HomeOutlined />
-            </Breadcrumb.Item>
-            <Breadcrumb.Item>首页</Breadcrumb.Item>
-          </Breadcrumb>
+          {/* 左侧：门店选择器和搜索 */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+            <Dropdown
+              menu={{
+                items: [
+                  { key: 'store1', label: '总店（万达广场店）' },
+                  { key: 'store2', label: '分店（银泰城店）' },
+                  { key: 'store3', label: '分店（龙湖天街店）' },
+                ]
+              }}
+            >
+              <Button icon={<ShopOutlined />}>
+                总店（万达广场店） <DownOutlined />
+              </Button>
+            </Dropdown>
+            <Button icon={<SearchOutlined />}>搜索功能菜单...</Button>
+          </div>
           
           {/* 右侧：功能按钮 */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-            <Badge count={0} size="small">
-              <Button type="text" icon={<ExportOutlined />}>审批</Button>
-            </Badge>
-            <Badge count={0} size="small">
-              <Button type="text">任务</Button>
-            </Badge>
-            <Button type="text" icon={<ExportOutlined />}>导出</Button>
             <Button type="text" icon={<QuestionCircleOutlined />}>知识库</Button>
-            <Button type="text" icon={<MoreOutlined />}>更多</Button>
+            <Button type="text" icon={<ExportOutlined />}>下载</Button>
+            <Badge count={5} size="small">
+              <Button type="text" icon={<BellOutlined />} />
+            </Badge>
             
             <Dropdown menu={{ items: userMenuItems }} placement="bottomRight">
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
                 <Avatar style={{ backgroundColor: '#1890ff' }}>CZF</Avatar>
-                <span>czf</span>
+                <span>管理员</span>
                 <DownOutlined />
               </div>
             </Dropdown>
           </div>
         </Header>
+
+        {/* 标签页栏 */}
+        <div style={{ 
+          background: '#f5f5f5', 
+          borderBottom: '1px solid #e8e8e8',
+          padding: '4px 0 0',
+        }}>
+          <Tabs
+            type="editable-card"
+            activeKey={activeKey}
+            onChange={handleTabChange}
+            onEdit={(targetKey, action) => {
+              if (action === 'remove') {
+                handleTabClose(targetKey as string);
+              }
+            }}
+            hideAdd
+            items={tabs.map(tab => ({
+              key: tab.key,
+              label: (
+                <span>
+                  {tab.icon && <span style={{ marginRight: 4 }}>{tab.icon}</span>}
+                  {tab.label}
+                </span>
+              ),
+              closable: tab.closable,
+            }))}
+            size="small"
+            style={{ marginBottom: 0 }}
+            tabBarStyle={{ margin: 0, paddingLeft: 16 }}
+            {...tabBarExtraContent}
+          />
+        </div>
         
         {/* 主内容区 */}
-        <Content style={{ margin: '24px', background: '#f5f5f5' }}>
-          {location.pathname === '/' || location.pathname === '/dashboard' ? (
-            // 首页Dashboard
-            <DashboardContent />
-          ) : (
-            <Card style={{ minHeight: 'calc(100vh - 112px)' }}>
-              <Outlet />
-            </Card>
-          )}
+        <Content style={{ 
+          margin: 0, 
+          padding: 24,
+          background: '#f0f2f5',
+          minHeight: 'calc(100vh - 112px)'
+        }}>
+          <Outlet />
         </Content>
       </Layout>
     </Layout>
-  );
-};
-
-// 首页Dashboard内容组件
-const DashboardContent: React.FC = () => {
-  const [timeRange, setTimeRange] = useState('today');
-
-  // 时间筛选按钮
-  const timeButtons = [
-    { key: 'today', label: '今日' },
-    { key: 'yesterday', label: '昨日' },
-    { key: 'week', label: '本周' },
-    { key: 'month', label: '本月' }
-  ];
-
-  // 核心指标数据
-  const statistics = [
-    {
-      title: '营业额',
-      value: 0,
-      prefix: '￥',
-      suffix: '',
-      daily: '日均：￥0',
-      weekOverWeek: '周环比：0%',
-      icon: <ShoppingCartOutlined style={{ fontSize: 24, color: '#1890ff' }} />
-    },
-    {
-      title: '新增会员',
-      value: 0,
-      suffix: '人',
-      daily: '日均：0人',
-      weekOverWeek: '周环比：0%',
-      icon: <UserOutlined style={{ fontSize: 24, color: '#52c41a' }} />
-    },
-    {
-      title: '耗币数',
-      value: 0,
-      suffix: '枚',
-      daily: '日均：0枚',
-      weekOverWeek: '周环比：0%',
-      icon: <GiftOutlined style={{ fontSize: 24, color: '#faad14' }} />
-    },
-    {
-      title: '机台耗币数',
-      value: 0,
-      suffix: '枚',
-      daily: '日均：0枚',
-      weekOverWeek: '周环比：0%',
-      icon: <AppstoreOutlined style={{ fontSize: 24, color: '#722ed1' }} />
-    },
-    {
-      title: '大项目人数',
-      value: 0,
-      suffix: '次',
-      daily: '日均：0次',
-      weekOverWeek: '周环比：0%',
-      icon: <BarChartOutlined style={{ fontSize: 24, color: '#eb2f96' }} />
-    }
-  ];
-
-  return (
-    <div>
-      {/* 营业概况卡片 */}
-      <Card style={{ marginBottom: 24 }}>
-        {/* 顶部筛选栏 */}
-        <div style={{ marginBottom: 24, display: 'flex', alignItems: 'center', gap: 16 }}>
-          <span style={{ fontWeight: 500 }}>营业日期：</span>
-          {timeButtons.map(btn => (
-            <Button 
-              key={btn.key}
-              type={timeRange === btn.key ? 'primary' : 'default'}
-              onClick={() => setTimeRange(btn.key)}
-            >
-              {btn.label}
-            </Button>
-          ))}
-          <RangePicker style={{ width: 240 }} />
-          <span style={{ color: '#999' }}>|</span>
-          <span style={{ color: '#999' }}>数据更新于：2026-03-11 00:25:00</span>
-          <span style={{ color: '#999' }}>|</span>
-          <span>门店：<a>0家</a></span>
-          <Button icon={<ReloadOutlined />}>刷新</Button>
-        </div>
-
-        {/* 核心指标卡片 */}
-        <div style={{ marginBottom: 24 }}>
-          <h3 style={{ marginBottom: 16 }}>营业概况</h3>
-          <Row gutter={16}>
-            {statistics.map((stat, index) => (
-              <Col span={index === 0 ? 8 : 4} key={stat.title}>
-                <Card 
-                  bordered={false} 
-                  style={{ 
-                    background: index === 0 ? '#e6f7ff' : '#f6ffed',
-                    borderRadius: 8
-                  }}
-                >
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                    <div>
-                      <div style={{ color: '#666', marginBottom: 8 }}>{stat.title}</div>
-                      <div style={{ fontSize: 28, fontWeight: 'bold', color: '#1890ff' }}>
-                        {stat.prefix}{stat.value}{stat.suffix}
-                      </div>
-                      <div style={{ fontSize: 12, color: '#999', marginTop: 8 }}>
-                        {stat.daily} | {stat.weekOverWeek}
-                      </div>
-                    </div>
-                    {stat.icon}
-                  </div>
-                </Card>
-              </Col>
-            ))}
-          </Row>
-        </div>
-
-        {/* 快捷入口 */}
-        <div style={{ marginBottom: 24 }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-            <h3>快捷入口</h3>
-            <Button type="primary" ghost size="small">管理</Button>
-          </div>
-          <Row gutter={16}>
-            <Col span={6}>
-              <Card hoverable style={{ textAlign: 'center', cursor: 'pointer' }}>
-                <div style={{ fontSize: 24, color: '#1890ff', marginBottom: 8 }}>+</div>
-                <div>系统业务配置</div>
-              </Card>
-            </Col>
-            <Col span={6}>
-              <Card hoverable style={{ textAlign: 'center', cursor: 'pointer' }}>
-                <div style={{ fontSize: 24, color: '#52c41a', marginBottom: 8 }}>⚙</div>
-                <div>弹珠业务配置向导</div>
-              </Card>
-            </Col>
-          </Row>
-        </div>
-
-        {/* 数据可视化区域 */}
-        <Tabs defaultActiveKey="revenue">
-          <TabPane tab="营收" key="revenue">
-            <Row gutter={24}>
-              <Col span={16}>
-                <Card title="门店销售额排名" extra={<Button type="link">查看更多</Button>}>
-                  <Table 
-                    size="small"
-                    columns={[
-                      { title: '排名', dataIndex: 'rank', width: 60 },
-                      { title: '门店', dataIndex: 'store' },
-                      { title: '销售额', dataIndex: 'amount', align: 'right' }
-                    ]}
-                    dataSource={[]}
-                    locale={{ emptyText: '暂无数据' }}
-                    pagination={false}
-                  />
-                </Card>
-              </Col>
-              <Col span={8}>
-                <Card title="销售额占比">
-                  <div style={{ textAlign: 'center', padding: '40px 0', color: '#999' }}>
-                    暂无数据
-                  </div>
-                </Card>
-              </Col>
-            </Row>
-          </TabPane>
-          <TabPane tab="耗币" key="coin">
-            <Row gutter={24}>
-              <Col span={12}>
-                <Card title="会员消费排名 TOP10">
-                  <div style={{ textAlign: 'center', padding: '40px 0', color: '#999' }}>
-                    暂无数据
-                  </div>
-                </Card>
-              </Col>
-              <Col span={12}>
-                <Card title="大项目人数趋势">
-                  <div style={{ textAlign: 'center', padding: '40px 0', color: '#999' }}>
-                    暂无数据
-                  </div>
-                </Card>
-              </Col>
-            </Row>
-          </TabPane>
-        </Tabs>
-      </Card>
-
-      {/* 运营资讯 */}
-      <Card title="运营资讯">
-        <div style={{ textAlign: 'center', padding: '20px 0', color: '#999' }}>
-          暂无资讯
-        </div>
-      </Card>
-    </div>
   );
 };
 
