@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>游乐场管理系统 - 部署说明</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .container {
+      background: white;
+      border-radius: 16px;
+      padding: 40px;
+      max-width: 800px;
+      width: 100%;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    h1 {
+      color: #333;
+      margin-bottom: 20px;
+      font-size: 28px;
+      text-align: center;
+    }
+    .status {
+      background: #f6ffed;
+      border: 1px solid #b7eb8f;
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 24px;
+    }
+    .status.success {
+      background: #f6ffed;
+      border-color: #52c41a;
+    }
+    .status h3 {
+      color: #52c41a;
+      margin-bottom: 8px;
+    }
+    .info-section {
+      margin-bottom: 24px;
+    }
+    .info-section h2 {
+      color: #1890ff;
+      font-size: 18px;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #e8e8e8;
+    }
+    .info-section p, .info-section li {
+      color: #666;
+      line-height: 1.8;
+      margin-bottom: 8px;
+    }
+    .info-section ul {
+      padding-left: 20px;
+    }
+    .deploy-options {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+    .deploy-option {
+      background: #f5f5f5;
+      border-radius: 8px;
+      padding: 16px;
+      text-align: center;
+      transition: all 0.3s;
+    }
+    .deploy-option:hover {
+      background: #e6f7ff;
+      transform: translateY(-2px);
+    }
+    .deploy-option h4 {
+      color: #1890ff;
+      margin-bottom: 8px;
+    }
+    .footer {
+      text-align: center;
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 1px solid #e8e8e8;
+      color: #999;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎮 游乐场管理系统</h1>
+    
+    <div class="status success">
+      <h3>✅ 项目构建成功</h3>
+      <p>前端代码已编译完成，可以部署到国内服务器。</p>
+    </div>
+
+    <div class="info-section">
+      <h2>📋 项目信息</h2>
+      <ul>
+        <li><strong>技术栈：</strong>React 18 + Ant Design Pro + TypeScript</li>
+        <li><strong>构建时间：</strong>2026-03-11</li>
+        <li><strong>构建大小：</strong>约 1.5 MB (gzip)</li>
+        <li><strong>菜单数量：</strong>13个一级菜单，100+功能点</li>
+      </ul>
+    </div>
+
+    <div class="info-section">
+      <h2>🚀 部署方式</h2>
+      <p>静态文件已生成在 <code>dist</code> 目录，支持以下部署方式：</p>
+      <div class="deploy-options">
+        <div class="deploy-option">
+          <h4>腾讯云开发</h4>
+          <p>CloudBase 静态托管</p>
+        </div>
+        <div class="deploy-option">
+          <h4>阿里云 OSS</h4>
+          <p>对象存储 + CDN</p>
+        </div>
+        <div class="deploy-option">
+          <h4>GitHub Pages</h4>
+          <p>免费静态托管</p>
+        </div>
+        <div class="deploy-option">
+          <h4>Vercel</h4>
+          <p>全球 CDN 加速</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-section">
+      <h2>📁 文件结构</h2>
+      <ul>
+        <li><code>/dist/index.html</code> - 入口文件</li>
+        <li><code>/dist/umi.js</code> - 主 JS 文件</li>
+        <li><code>/dist/umi.css</code> - 主 CSS 文件</li>
+        <li><code>/dist/*.async.js</code> - 异步加载模块</li>
+      </ul>
+    </div>
+
+    <div class="info-section">
+      <h2>⚠️ 部署说明</h2>
+      <p>由于需要部署到<strong>国内环境</strong>，建议使用以下方案：</p>
+      <ul>
+        <li><strong>推荐：</strong>腾讯云开发 CloudBase（国内访问快）</li>
+        <li><strong>备选：</strong>阿里云 OSS + CDN 加速</li>
+        <li><strong>临时：</strong>可以使用 Vercel + 国内 CDN</li>
+      </ul>
+    </div>
+
+    <div class="footer">
+      <p>© 2026 世软科技 | 游乐场管理系统</p>
+    </div>
+  </div>
+</body>
+</html>

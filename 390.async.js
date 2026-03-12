@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkplayground_management_system=self.webpackChunkplayground_management_system||[]).push([[390],{96390:function(m,n,t){t.r(n),t.d(n,{default:function(){return s}});var E=t(67294),u=t(76772),e=t(85893);function s(){var a=(0,u.useOutletContext)();return(0,e.jsx)(u.Outlet,{context:a})}}}]);
