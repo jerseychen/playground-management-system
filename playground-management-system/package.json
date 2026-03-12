@@ -6,9 +6,10 @@
   "scripts": {
     "dev": "max dev",
     "build": "max build",
-    "deploy": "max build && echo 'Build completed'",
+    "deploy": "max build && gh-pages -d dist",
     "start": "npm run dev"
   },
+  "homepage": "https://jerseychen.github.io/playground-management-system/",
   "dependencies": {
     "@ant-design/icons": "^5.2.6",
     "@ant-design/pro-components": "^2.6.48",
@@ -21,6 +22,7 @@
   "devDependencies": {
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
+    "gh-pages": "^6.3.0",
     "tailwindcss": "^4.2.1",
     "typescript": "^5.3.0"
   }
