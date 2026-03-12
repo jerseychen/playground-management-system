@@ -1,0 +1,27 @@
+{
+  "name": "playground-management-system",
+  "version": "1.0.0",
+  "private": true,
+  "description": "游乐场管理系统 - React + Ant Design Pro",
+  "scripts": {
+    "dev": "max dev",
+    "build": "max build",
+    "deploy": "max build && echo 'Build completed'",
+    "start": "npm run dev"
+  },
+  "dependencies": {
+    "@ant-design/icons": "^5.2.6",
+    "@ant-design/pro-components": "^2.6.48",
+    "@umijs/max": "^4.1.0",
+    "antd": "^5.13.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "recharts": "^2.10.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "tailwindcss": "^4.2.1",
+    "typescript": "^5.3.0"
+  }
+}
