@@ -29,6 +29,8 @@ import {
   DatePicker,
   Select,
   Radio,
+  Tree,
+  Divider,
 } from 'antd';
 import {
   ArrowUpOutlined,
@@ -44,10 +46,45 @@ import {
   CalendarOutlined,
 } from '@ant-design/icons';
 import type { TabsProps } from 'antd';
+import type { DataNode } from 'antd/es/tree';
 
 const { Title, Text } = Typography;
 const { RangePicker } = DatePicker;
 const { Option } = Select;
+
+// 门店树型数据
+const storeTreeData: DataNode[] = [
+  {
+    title: '全部门店',
+    key: 'all',
+    icon: <ShopOutlined />,
+  },
+  {
+    title: '华东区',
+    key: 'east',
+    children: [
+      { title: '万达广场店', key: 'store1' },
+      { title: '银泰城店', key: 'store2' },
+      { title: '龙湖天街店', key: 'store3' },
+    ],
+  },
+  {
+    title: '华南区',
+    key: 'south',
+    children: [
+      { title: '万象城店', key: 'store4' },
+      { title: '大悦城店', key: 'store5' },
+    ],
+  },
+  {
+    title: '华北区',
+    key: 'north',
+    children: [
+      { title: '朝阳大悦城店', key: 'store6' },
+      { title: '西单店', key: 'store7' },
+    ],
+  },
+];
 
 // 趋势数据
 const trendData = [
@@ -144,6 +181,8 @@ const newsData = [
 ];
 
 const Analysis: React.FC = () => {
+  const [selectedStores, setSelectedStores] = useState<string[]>(['all']);
+  const [comparePeriod, setComparePeriod] = useState('lastYear');
   const [trendTab, setTrendTab] = useState('revenue');
   const [revenueTab, setRevenueTab] = useState('channel');
   const [storeTab, setStoreTab] = useState('revenue');
@@ -160,6 +199,14 @@ const Analysis: React.FC = () => {
     { icon: <ExportOutlined />, label: '数据导出', color: '#722ed1' },
     { icon: <PrinterOutlined />, label: '打印小票', color: '#13c2c2' },
   ];
+
+  // 模块标题组件
+  const ModuleTitle: React.FC<{ icon: string; title: string; color: string }> = ({ icon, title, color }) => (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
+      <div style={{ width: 4, height: 20, background: color, borderRadius: 2 }} />
+      <span style={{ fontSize: 18, fontWeight: 'bold', color: '#1f2937' }}>{icon} {title}</span>
+    </div>
+  );
 
   // 表格列定义
   const storeColumns = [
@@ -260,270 +307,175 @@ const Analysis: React.FC = () => {
   ];
 
   return (
-    <div style={{ padding: 24, background: '#f0f2f5', minHeight: '100vh' }}>
-      {/* 顶部筛选栏 */}
-      <Card style={{ marginBottom: 24 }}>
-        <Row gutter={[16, 16]} align="middle">
-          <Col>
-            <Space>
-              <span>营业日期：</span>
-              <Radio.Group defaultValue="today">
-                <Radio.Button value="today">今日</Radio.Button>
-                <Radio.Button value="yesterday">昨日</Radio.Button>
-                <Radio.Button value="week">本周</Radio.Button>
-                <Radio.Button value="lastweek">上周</Radio.Button>
-                <Radio.Button value="month">本月</Radio.Button>
-                <Radio.Button value="lastmonth">上月</Radio.Button>
-                <Radio.Button value="year">本年</Radio.Button>
-              </Radio.Group>
-            </Space>
-          </Col>
-          <Col>
-            <RangePicker />
-          </Col>
-          <Col>
-            <Text type="secondary">数据更新时间：2026-03-12 00:35:00</Text>
-          </Col>
-          <Col flex="auto" style={{ textAlign: 'right' }}>
-            <Space>
-              <Select defaultValue="all" style={{ width: 150 }} suffixIcon={<ShopOutlined />}>
-                <Option value="all">全部门店</Option>
-                <Option value="store1">万达广场店</Option>
-                <Option value="store2">银泰城店</Option>
-                <Option value="store3">龙湖天街店</Option>
-              </Select>
-              <Button icon={<ReloadOutlined />}>刷新</Button>
-            </Space>
-          </Col>
-        </Row>
-      </Card>
+    <div style={{ display: 'flex', minHeight: '100vh', background: '#f0f2f5' }}>
+      {/* 左侧门店树 */}
+      <div style={{ width: 240, background: '#fff', borderRight: '1px solid #f0f0f0', padding: 16 }}>
+        <Title level={5} style={{ marginBottom: 16 }}>
+          <ShopOutlined style={{ marginRight: 8, color: '#1890ff' }} />
+          门店选择
+        </Title>
+        <Tree
+          checkable
+          defaultExpandedKeys={['east', 'south', 'north']}
+          defaultCheckedKeys={['all']}
+          treeData={storeTreeData}
+          onCheck={(checkedKeys) => setSelectedStores(checkedKeys as string[])}
+        />
+      </div>
 
-      {/* 快捷入口 */}
-      <Card style={{ marginBottom: 24 }}>
-        <Row gutter={[16, 16]}>
-          {quickEntries.map((item, index) => (
-            <Col key={index} xs={12} sm={8} md={4}>
-              <Button
-                type="dashed"
-                style={{
-                  width: '100%',
-                  height: 80,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  borderColor: item.color,
-                  color: item.color,
-                }}
-              >
-                <div style={{ fontSize: 24, marginBottom: 8 }}>{item.icon}</div>
-                <div>{item.label}</div>
-              </Button>
+      {/* 右侧内容区 */}
+      <div style={{ flex: 1, padding: 24 }}>
+        {/* 顶部筛选栏 */}
+        <Card style={{ marginBottom: 24 }}>
+          <Row gutter={[16, 16]} align="middle">
+            <Col>
+              <Space>
+                <span>营业日期：</span>
+                <Radio.Group defaultValue="today">
+                  <Radio.Button value="today">今日</Radio.Button>
+                  <Radio.Button value="yesterday">昨日</Radio.Button>
+                  <Radio.Button value="week">本周</Radio.Button>
+                  <Radio.Button value="lastweek">上周</Radio.Button>
+                  <Radio.Button value="month">本月</Radio.Button>
+                  <Radio.Button value="lastmonth">上月</Radio.Button>
+                  <Radio.Button value="year">本年</Radio.Button>
+                </Radio.Group>
+              </Space>
             </Col>
-          ))}
-        </Row>
-      </Card>
+            <Col>
+              <RangePicker />
+            </Col>
+            <Col>
+              <Text type="secondary">数据更新时间：2026-03-12 00:35:00</Text>
+            </Col>
+            <Col flex="auto" style={{ textAlign: 'right' }}>
+              <Button icon={<ReloadOutlined />}>刷新</Button>
+            </Col>
+          </Row>
+        </Card>
 
-      {/* 核心指标卡片 */}
-      <Row gutter={[16, 16]} style={{ marginBottom: 24 }}>
-        <Col xs={24} sm={12} md={8} lg={4}>
-          <Card>
-            <Statistic
-              title="今日营业额"
-              value={12580}
-              precision={2}
-              prefix="¥"
-              valueStyle={{ color: '#1890ff' }}
-              suffix={<span style={{ fontSize: 12, color: '#52c41a' }}><ArrowUpOutlined /> 12.5%</span>}
-            />
-          </Card>
-        </Col>
-        <Col xs={24} sm={12} md={8} lg={4}>
-          <Card>
-            <Statistic
-              title="今日客流量"
-              value={358}
-              suffix="人"
-              valueStyle={{ color: '#52c41a' }}
-            />
-          </Card>
-        </Col>
-        <Col xs={24} sm={12} md={8} lg={4}>
-          <Card>
-            <Statistic
-              title="会员客单价"
-              value={68.5}
-              precision={1}
-              prefix="¥"
-              valueStyle={{ color: '#722ed1' }}
-            />
-          </Card>
-        </Col>
-        <Col xs={24} sm={12} md={8} lg={4}>
-          <Card>
-            <Statistic
-              title="散客客单价"
-              value={45.2}
-              precision={1}
-              prefix="¥"
-              valueStyle={{ color: '#faad14' }}
-            />
-          </Card>
-        </Col>
-        <Col xs={24} sm={12} md={8} lg={4}>
-          <Card>
-            <Statistic
-              title="售币单价"
-              value={0.85}
-              precision={2}
-              prefix="¥"
-              valueStyle={{ color: '#f5222d' }}
-            />
-          </Card>
-        </Col>
-        <Col xs={24} sm={12} md={8} lg={4}>
-          <Card>
-            <Statistic
-              title="售币数"
-              value={15680}
-              suffix="币"
-              valueStyle={{ color: '#13c2c2' }}
-            />
-          </Card>
-        </Col>
-      </Row>
+        {/* 快捷入口 */}
+        <Card style={{ marginBottom: 24 }}>
+          <Row gutter={[16, 16]}>
+            {quickEntries.map((item, index) => (
+              <Col key={index} xs={12} sm={8} md={4}>
+                <Button
+                  type="dashed"
+                  style={{
+                    width: '100%',
+                    height: 80,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    borderColor: item.color,
+                    color: item.color,
+                  }}
+                >
+                  <div style={{ fontSize: 24, marginBottom: 8 }}>{item.icon}</div>
+                  <div>{item.label}</div>
+                </Button>
+              </Col>
+            ))}
+          </Row>
+        </Card>
 
-      <Row gutter={[16, 16]} style={{ marginBottom: 24 }}>
-        <Col xs={24} sm={12} md={8} lg={4}>
-          <Card>
-            <Statistic
-              title="存奖票数"
-              value={3250}
-              suffix="张"
-              valueStyle={{ color: '#1890ff' }}
-            />
+        {/* 营业额模块 */}
+        <div style={{ marginBottom: 32 }}>
+          <ModuleTitle icon="💰" title="营业额模块" color="#1890ff" />
+          
+          {/* 总营业额 + 对比 */}
+          <Card style={{ marginBottom: 16 }}>
+            <Row gutter={[24, 16]} align="middle">
+              <Col xs={24} md={12}>
+                <Text type="secondary">总营业额</Text>
+                <div style={{ marginTop: 8 }}>
+                  <span style={{ fontSize: 36, fontWeight: 'bold', color: '#1f2937' }}>¥125,800.00</span>
+                  <span style={{ marginLeft: 12, color: '#52c41a', fontSize: 16 }}>
+                    <ArrowUpOutlined /> +¥15,200
+                  </span>
+                </div>
+                <Text type="secondary" style={{ fontSize: 12 }}>较上期增长</Text>
+              </Col>
+              <Col xs={24} md={12} style={{ textAlign: 'right' }}>
+                <Space direction="vertical" align="end">
+                  <Space>
+                    <Text>对比时间：</Text>
+                    <Select value={comparePeriod} onChange={setComparePeriod} style={{ width: 120 }}>
+                      <Option value="lastYear">去年同期</Option>
+                      <Option value="lastMonth">上月同期</Option>
+                      <Option value="lastWeek">上周同期</Option>
+                    </Select>
+                  </Space>
+                  <div style={{ color: '#52c41a', fontSize: 20, fontWeight: 'bold' }}>
+                    <ArrowUpOutlined /> 12.5%
+                  </div>
+                  <Text type="secondary">同比增长</Text>
+                </Space>
+              </Col>
+            </Row>
           </Card>
-        </Col>
-        <Col xs={24} sm={12} md={8} lg={4}>
-          <Card>
-            <Statistic
-              title="回收礼品数"
-              value={128}
-              suffix="件"
-              valueStyle={{ color: '#52c41a' }}
-            />
-          </Card>
-        </Col>
-        <Col xs={24} sm={12} md={8} lg={4}>
-          <Card>
-            <Statistic
-              title="新增会员"
-              value={28}
-              suffix="人"
-              valueStyle={{ color: '#722ed1' }}
-            />
-          </Card>
-        </Col>
-        <Col xs={24} sm={12} md={8} lg={4}>
-          <Card>
-            <Statistic
-              title="到店会员"
-              value={156}
-              suffix="人"
-              valueStyle={{ color: '#faad14' }}
-            />
-          </Card>
-        </Col>
-        <Col xs={24} sm={12} md={8} lg={4}>
-          <Card>
-            <Statistic
-              title="复购会员"
-              value={89}
-              suffix="人"
-              valueStyle={{ color: '#f5222d' }}
-            />
-          </Card>
-        </Col>
-        <Col xs={24} sm={12} md={8} lg={4}>
-          <Card>
-            <Statistic
-              title="大项目人数"
-              value={268}
-              suffix="人"
-              valueStyle={{ color: '#13c2c2' }}
-            />
-          </Card>
-        </Col>
-      </Row>
 
-      <Row gutter={[16, 16]} style={{ marginBottom: 24 }}>
-        <Col xs={24} sm={12} md={8} lg={4}>
-          <Card>
-            <Statistic
-              title="团购核销金额"
-              value={5680}
-              precision={2}
-              prefix="¥"
-              valueStyle={{ color: '#1890ff' }}
-            />
-          </Card>
-        </Col>
-        <Col xs={24} sm={12} md={8} lg={4}>
-          <Card>
-            <Statistic
-              title="耗币数"
-              value={12850}
-              suffix="币"
-              valueStyle={{ color: '#52c41a' }}
-            />
-          </Card>
-        </Col>
-        <Col xs={24} sm={12} md={8} lg={4}>
-          <Card>
-            <Statistic
-              title="兑奖票数"
-              value={2150}
-              suffix="张"
-              valueStyle={{ color: '#722ed1' }}
-            />
-          </Card>
-        </Col>
-        <Col xs={24} sm={12} md={8} lg={4}>
-          <Card>
-            <Statistic
-              title="兑换礼品数"
-              value={326}
-              suffix="件"
-              valueStyle={{ color: '#faad14' }}
-            />
-          </Card>
-        </Col>
-        <Col xs={24} sm={12} md={8} lg={4}>
-          <Card>
-            <Statistic
-              title="设备在线率"
-              value={92}
-              suffix="%"
-              valueStyle={{ color: '#f5222d' }}
-            />
-          </Card>
-        </Col>
-        <Col xs={24} sm={12} md={8} lg={4}>
-          <Card>
-            <Statistic
-              title="会员卡余额"
-              value={156800}
-              precision={2}
-              prefix="¥"
-              valueStyle={{ color: '#13c2c2' }}
-            />
-          </Card>
-        </Col>
-      </Row>
+          {/* 渠道占比 + 套餐占比 */}
+          <Row gutter={[16, 16]} style={{ marginBottom: 16 }}>
+            <Col xs={24} lg={12}>
+              <Card>
+                <Tabs activeKey={revenueTab} onChange={setRevenueTab} items={revenueTabItems} />
+                <ResponsiveContainer width="100%" height={280}>
+                  <PieChart>
+                    <Pie
+                      data={revenueTab === 'payment' ? revenueByPayment : revenueByChannel}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={60}
+                      outerRadius={100}
+                      paddingAngle={5}
+                      dataKey="value"
+                      label={({ name, value }) => `${name} ${value}%`}
+                    >
+                      {(revenueTab === 'payment' ? revenueByPayment : revenueByChannel).map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      ))}
+                    </Pie>
+                    <Tooltip />
+                  </PieChart>
+                </ResponsiveContainer>
+              </Card>
+            </Col>
+            <Col xs={24} lg={12}>
+              <Card title="套餐金额占比">
+                <ResponsiveContainer width="100%" height={280}>
+                  <PieChart>
+                    <Pie
+                      data={[
+                        { name: '100币套餐', value: 35, color: '#722ed1' },
+                        { name: '200币套餐', value: 28, color: '#eb2f96' },
+                        { name: '500币套餐', value: 22, color: '#13c2c2' },
+                        { name: '活动套餐', value: 15, color: '#fa8c16' },
+                      ]}
+                      cx="50%"
+                      cy="50%"
+                      outerRadius={100}
+                      dataKey="value"
+                      label={({ name, value }) => `${name} ${value}%`}
+                    >
+                      {[
+                        { name: '100币套餐', value: 35, color: '#722ed1' },
+                        { name: '200币套餐', value: 28, color: '#eb2f96' },
+                        { name: '500币套餐', value: 22, color: '#13c2c2' },
+                        { name: '活动套餐', value: 15, color: '#fa8c16' },
+                      ].map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      ))}
+                    </Pie>
+                    <Tooltip />
+                  </PieChart>
+                </ResponsiveContainer>
+              </Card>
+            </Col>
+          </Row>
 
-      {/* 趋势分析 */}
-      <Row gutter={[16, 16]} style={{ marginBottom: 24 }}>
-        <Col xs={24} lg={12}>
+          {/* 营收趋势（整行） */}
           <Card>
             <Tabs activeKey={trendTab} onChange={setTrendTab} items={trendTabItems} />
             <ResponsiveContainer width="100%" height={300}>
@@ -538,142 +490,305 @@ const Analysis: React.FC = () => {
               </LineChart>
             </ResponsiveContainer>
           </Card>
-        </Col>
-        <Col xs={24} lg={12}>
-          <Card>
-            <Tabs activeKey={revenueTab} onChange={setRevenueTab} items={revenueTabItems} />
-            <ResponsiveContainer width="100%" height={300}>
-              <PieChart>
-                <Pie
-                  data={revenueTab === 'payment' ? revenueByPayment : revenueByChannel}
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={60}
-                  outerRadius={100}
-                  paddingAngle={5}
-                  dataKey="value"
-                  label={({ name, value }) => `${name} ${value}%`}
-                >
-                  {(revenueTab === 'payment' ? revenueByPayment : revenueByChannel).map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
-                </Pie>
-                <Tooltip />
-              </PieChart>
-            </ResponsiveContainer>
-          </Card>
-        </Col>
-      </Row>
+        </div>
 
-      {/* 门店排名和机台概况 */}
-      <Row gutter={[16, 16]} style={{ marginBottom: 24 }}>
-        <Col xs={24} lg={12}>
-          <Card>
-            <Tabs activeKey={storeTab} onChange={setStoreTab} items={storeTabItems} />
-            <Table
-              dataSource={storeRankingData}
-              columns={storeColumns}
-              pagination={false}
-              size="small"
-            />
-          </Card>
-        </Col>
-        <Col xs={24} lg={12}>
-          <Card>
-            <Tabs activeKey={machineTab} onChange={setMachineTab} items={machineTabItems} />
-            <ResponsiveContainer width="100%" height={250}>
-              <PieChart>
-                <Pie
-                  data={machineData}
-                  cx="50%"
-                  cy="50%"
-                  outerRadius={100}
-                  dataKey="value"
-                  label={({ name, value }) => `${name} ${value}%`}
-                >
-                  {machineData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
-                </Pie>
-                <Tooltip />
-              </PieChart>
-            </ResponsiveContainer>
-          </Card>
-        </Col>
-      </Row>
+        <Divider />
 
-      {/* 机台投币明细 */}
-      <Card style={{ marginBottom: 24 }}>
-        <Tabs activeKey={machineDetailTab} onChange={setMachineDetailTab} items={machineDetailTabItems} />
-        <Table
-          dataSource={machineDetailData.filter(item => machineDetailTab === 'all' || item.type === machineDetailTab)}
-          columns={machineColumns}
-          pagination={{ pageSize: 5 }}
-          size="small"
-        />
-      </Card>
-
-      {/* 会员排行和大项目 */}
-      <Row gutter={[16, 16]} style={{ marginBottom: 24 }}>
-        <Col xs={24} lg={12}>
-          <Card>
-            <Tabs activeKey={memberTab} onChange={setMemberTab} items={memberTabItems} />
-            <Table
-              dataSource={memberTab === 'recharge' ? memberByRecharge : memberByCoin}
-              columns={memberColumns}
-              pagination={false}
-              size="small"
-            />
-          </Card>
-        </Col>
-        <Col xs={24} lg={12}>
-          <Card title="大项目概况">
-            <ResponsiveContainer width="100%" height={250}>
-              <BarChart data={projectData} layout="vertical">
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis type="number" />
-                <YAxis dataKey="name" type="category" width={80} />
-                <Tooltip />
-                <Bar dataKey="value" name="营收" fill="#1890ff" />
-              </BarChart>
-            </ResponsiveContainer>
-          </Card>
-        </Col>
-      </Row>
-
-      {/* 知识库和运营资讯 */}
-      <Row gutter={[16, 16]}>
-        <Col xs={24} lg={12}>
-          <Card title="知识库">
-            <Space direction="vertical" style={{ width: '100%' }}>
-              {knowledgeData.map((item, index) => (
-                <div key={index} style={{ padding: '12px 0', borderBottom: index < knowledgeData.length - 1 ? '1px solid #f0f0f0' : 'none' }}>
-                  <Text strong>{item.title}</Text>
-                  <div style={{ marginTop: 4 }}>
-                    <Text type="secondary">{item.date}</Text>
-                  </div>
-                  <div style={{ marginTop: 4 }}>
-                    <Text>{item.content}</Text>
-                  </div>
+        {/* 售卖模块 */}
+        <div style={{ marginBottom: 32 }}>
+          <ModuleTitle icon="🛒" title="售卖模块" color="#52c41a" />
+          <Row gutter={[16, 16]}>
+            <Col xs={24} sm={12} lg={6}>
+              <Card>
+                <Statistic
+                  title="售币数"
+                  value={15680}
+                  suffix="币"
+                  valueStyle={{ color: '#1890ff' }}
+                />
+                <div style={{ color: '#52c41a', marginTop: 8 }}>
+                  <ArrowUpOutlined /> 8.2%
                 </div>
-              ))}
-            </Space>
-          </Card>
-        </Col>
-        <Col xs={24} lg={12}>
-          <Card title="运营资讯">
-            <Space direction="vertical" style={{ width: '100%' }}>
-              {newsData.map((item, index) => (
-                <div key={index} style={{ padding: '12px 0', borderBottom: index < newsData.length - 1 ? '1px solid #f0f0f0' : 'none' }}>
-                  <Tag color={item.color}>{item.type}</Tag>
-                  <Text style={{ marginLeft: 8 }}>{item.title}</Text>
-                  <Text type="secondary" style={{ float: 'right' }}>{item.date}</Text>
+              </Card>
+            </Col>
+            <Col xs={24} sm={12} lg={6}>
+              <Card>
+                <Statistic
+                  title="售币单价"
+                  value={0.85}
+                  precision={2}
+                  prefix="¥"
+                  valueStyle={{ color: '#1890ff' }}
+                />
+                <div style={{ color: '#f5222d', marginTop: 8 }}>
+                  <ArrowDownOutlined /> 2.1%
                 </div>
-              ))}
-            </Space>
-          </Card>
-        </Col>
-      </Row>
+              </Card>
+            </Col>
+            <Col xs={24} sm={12} lg={6}>
+              <Card>
+                <Statistic
+                  title="免费币"
+                  value={3580}
+                  precision={2}
+                  prefix="¥"
+                  valueStyle={{ color: '#1890ff' }}
+                />
+                <div style={{ color: '#8c8c8c', marginTop: 8 }}>
+                  0元补币+活动币
+                </div>
+              </Card>
+            </Col>
+            <Col xs={24} sm={12} lg={6}>
+              <Card>
+                <Statistic
+                  title="团购核销金额"
+                  value={5680}
+                  precision={2}
+                  prefix="¥"
+                  valueStyle={{ color: '#1890ff' }}
+                />
+                <div style={{ color: '#52c41a', marginTop: 8 }}>
+                  <ArrowUpOutlined /> 15.3%
+                </div>
+              </Card>
+            </Col>
+          </Row>
+        </div>
+
+        <Divider />
+
+        {/* 游玩模块 */}
+        <div style={{ marginBottom: 32 }}>
+          <ModuleTitle icon="🎮" title="游玩模块" color="#722ed1" />
+          <Row gutter={[16, 16]}>
+            <Col xs={24} sm={12} lg={6}>
+              <Card>
+                <Statistic
+                  title="耗币数"
+                  value={12850}
+                  suffix="币"
+                  valueStyle={{ color: '#1890ff' }}
+                />
+                <div style={{ color: '#52c41a', marginTop: 8 }}>
+                  <ArrowUpOutlined /> 5.6%
+                </div>
+              </Card>
+            </Col>
+            <Col xs={24} sm={12} lg={6}>
+              <Card>
+                <Statistic
+                  title="客流量"
+                  value={358}
+                  suffix="人"
+                  valueStyle={{ color: '#1890ff' }}
+                />
+                <div style={{ color: '#52c41a', marginTop: 8 }}>
+                  <ArrowUpOutlined /> 12.5%
+                </div>
+              </Card>
+            </Col>
+            <Col xs={24} sm={12} lg={6}>
+              <Card>
+                <Statistic
+                  title="大项目人数"
+                  value={268}
+                  suffix="人"
+                  valueStyle={{ color: '#1890ff' }}
+                />
+                <div style={{ color: '#f5222d', marginTop: 8 }}>
+                  <ArrowDownOutlined /> 3.2%
+                </div>
+              </Card>
+            </Col>
+            <Col xs={24} sm={12} lg={6}>
+              <Card>
+                <Statistic
+                  title="设备在线率"
+                  value={92}
+                  suffix="%"
+                  valueStyle={{ color: '#1890ff' }}
+                />
+                <div style={{ color: '#faad14', marginTop: 8 }}>
+                  <ArrowDownOutlined /> 1%
+                </div>
+              </Card>
+            </Col>
+          </Row>
+        </div>
+
+        <Divider />
+
+        {/* 会员模块 */}
+        <div style={{ marginBottom: 32 }}>
+          <ModuleTitle icon="👥" title="会员模块" color="#eb2f96" />
+          <Row gutter={[16, 16]}>
+            <Col xs={24} sm={12} lg={6}>
+              <Card>
+                <Statistic
+                  title="新增会员"
+                  value={28}
+                  suffix="人"
+                  valueStyle={{ color: '#1890ff' }}
+                />
+                <div style={{ color: '#52c41a', marginTop: 8 }}>
+                  <ArrowUpOutlined /> 15.2%
+                </div>
+              </Card>
+            </Col>
+            <Col xs={24} sm={12} lg={6}>
+              <Card>
+                <Statistic
+                  title="到店会员"
+                  value={156}
+                  suffix="人"
+                  valueStyle={{ color: '#1890ff' }}
+                />
+                <div style={{ color: '#52c41a', marginTop: 8 }}>
+                  <ArrowUpOutlined /> 8.7%
+                </div>
+              </Card>
+            </Col>
+            <Col xs={24} sm={12} lg={6}>
+              <Card>
+                <Statistic
+                  title="复购会员"
+                  value={89}
+                  suffix="人"
+                  valueStyle={{ color: '#1890ff' }}
+                />
+                <div style={{ color: '#f5222d', marginTop: 8 }}>
+                  <ArrowDownOutlined /> 5.3%
+                </div>
+              </Card>
+            </Col>
+            <Col xs={24} sm={12} lg={6}>
+              <Card>
+                <Statistic
+                  title="会员卡余额"
+                  value={156800}
+                  precision={2}
+                  prefix="¥"
+                  valueStyle={{ color: '#1890ff' }}
+                />
+                <div style={{ color: '#52c41a', marginTop: 8 }}>
+                  <ArrowUpOutlined /> ¥12,500
+                </div>
+              </Card>
+            </Col>
+          </Row>
+        </div>
+
+        {/* 门店排名和机台概况 */}
+        <Row gutter={[16, 16]} style={{ marginBottom: 24 }}>
+          <Col xs={24} lg={12}>
+            <Card>
+              <Tabs activeKey={storeTab} onChange={setStoreTab} items={storeTabItems} />
+              <Table
+                dataSource={storeRankingData}
+                columns={storeColumns}
+                pagination={false}
+                size="small"
+              />
+            </Card>
+          </Col>
+          <Col xs={24} lg={12}>
+            <Card>
+              <Tabs activeKey={machineTab} onChange={setMachineTab} items={machineTabItems} />
+              <ResponsiveContainer width="100%" height={250}>
+                <PieChart>
+                  <Pie
+                    data={machineData}
+                    cx="50%"
+                    cy="50%"
+                    outerRadius={100}
+                    dataKey="value"
+                    label={({ name, value }) => `${name} ${value}%`}
+                  >
+                    {machineData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.color} />
+                    ))}
+                  </Pie>
+                  <Tooltip />
+                </PieChart>
+              </ResponsiveContainer>
+            </Card>
+          </Col>
+        </Row>
+
+        {/* 机台投币明细 */}
+        <Card style={{ marginBottom: 24 }}>
+          <Tabs activeKey={machineDetailTab} onChange={setMachineDetailTab} items={machineDetailTabItems} />
+          <Table
+            dataSource={machineDetailData.filter(item => machineDetailTab === 'all' || item.type === machineDetailTab)}
+            columns={machineColumns}
+            pagination={{ pageSize: 5 }}
+            size="small"
+          />
+        </Card>
+
+        {/* 会员排行和大项目 */}
+        <Row gutter={[16, 16]} style={{ marginBottom: 24 }}>
+          <Col xs={24} lg={12}>
+            <Card>
+              <Tabs activeKey={memberTab} onChange={setMemberTab} items={memberTabItems} />
+              <Table
+                dataSource={memberTab === 'recharge' ? memberByRecharge : memberByCoin}
+                columns={memberColumns}
+                pagination={false}
+                size="small"
+              />
+            </Card>
+          </Col>
+          <Col xs={24} lg={12}>
+            <Card title="大项目概况">
+              <ResponsiveContainer width="100%" height={250}>
+                <BarChart data={projectData} layout="vertical">
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis type="number" />
+                  <YAxis dataKey="name" type="category" width={80} />
+                  <Tooltip />
+                  <Bar dataKey="value" name="营收" fill="#1890ff" />
+                </BarChart>
+              </ResponsiveContainer>
+            </Card>
+          </Col>
+        </Row>
+
+        {/* 知识库和运营资讯 */}
+        <Row gutter={[16, 16]}>
+          <Col xs={24} lg={12}>
+            <Card title="知识库">
+              <Space direction="vertical" style={{ width: '100%' }}>
+                {knowledgeData.map((item, index) => (
+                  <div key={index} style={{ padding: '12px 0', borderBottom: index < knowledgeData.length - 1 ? '1px solid #f0f0f0' : 'none' }}>
+                    <Text strong>{item.title}</Text>
+                    <div style={{ marginTop: 4 }}>
+                      <Text type="secondary">{item.date}</Text>
+                    </div>
+                    <div style={{ marginTop: 4 }}>
+                      <Text>{item.content}</Text>
+                    </div>
+                  </div>
+                ))}
+              </Space>
+            </Card>
+          </Col>
+          <Col xs={24} lg={12}>
+            <Card title="运营资讯">
+              <Space direction="vertical" style={{ width: '100%' }}>
+                {newsData.map((item, index) => (
+                  <div key={index} style={{ padding: '12px 0', borderBottom: index < newsData.length - 1 ? '1px solid #f0f0f0' : 'none' }}>
+                    <Tag color={item.color}>{item.type}</Tag>
+                    <Text style={{ marginLeft: 8 }}>{item.title}</Text>
+                    <Text type="secondary" style={{ float: 'right' }}>{item.date}</Text>
+                  </div>
+                ))}
+              </Space>
+            </Card>
+          </Col>
+        </Row>
+      </div>
     </div>
   );
 };
