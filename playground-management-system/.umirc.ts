@@ -7,7 +7,7 @@ export default defineConfig({
   initialState: {},
   request: {},
   tailwindcss: false,
-  publicPath: '/playground-management-system/',
+  publicPath: '/',
   history: {
     type: 'hash',
   },
