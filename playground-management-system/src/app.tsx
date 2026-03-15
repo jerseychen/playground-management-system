@@ -1,6 +1,6 @@
-import { RunTimeLayoutConfig, useLocation, useNavigate, useAliveController } from '@umijs/max';
+import { RunTimeLayoutConfig, useLocation, useNavigate } from '@umijs/max';
 import { history } from '@umijs/max';
-import { Avatar, Dropdown, Space, Badge, Button, Input, Select, Tabs, message } from 'antd';
+import { Avatar, Dropdown, Space, Badge, Button, Input, Select, Tabs, message, Switch, Tooltip } from 'antd';
 import {
   UserOutlined,
   LogoutOutlined,
@@ -11,6 +11,8 @@ import {
   ShopOutlined,
   CloseOutlined,
   HomeOutlined,
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import React, { useState, useEffect, useCallback } from 'react';
@@ -25,7 +27,7 @@ interface TabItem {
   closable?: boolean;
 }
 
-// 全局标签页状态（使用 localStorage 持久化）
+// 全局标签页状态
 const getStoredTabs = (): TabItem[] => {
   try {
     const stored = localStorage.getItem('playground-tabs');
@@ -46,15 +48,49 @@ const storeTabs = (tabs: TabItem[]) => {
   }
 };
 
+// 菜单显示模式
+const getMenuMode = (): 'expanded' | 'collapsed' => {
+  try {
+    return localStorage.getItem('playground-menu-mode') as 'expanded' | 'collapsed' || 'expanded';
+  } catch (e) {
+    return 'expanded';
+  }
+};
+
+const storeMenuMode = (mode: 'expanded' | 'collapsed') => {
+  try {
+    localStorage.setItem('playground-menu-mode', mode);
+  } catch (e) {
+    console.error('Failed to store menu mode:', e);
+  }
+};
+
 // 运行时配置
 export const layout: RunTimeLayoutConfig = () => {
+  const [menuMode, setMenuMode] = useState<'expanded' | 'collapsed'>(getMenuMode());
+
   return {
     logo: 'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
     menu: {
       locale: false,
+      // 根据模式设置菜单展开方式
+      defaultOpenAll: menuMode === 'expanded',
     },
-    layout: 'mix',
+    layout: 'side',
     splitMenus: false,
+    // 首页不在菜单中显示
+    route: {
+      path: '/dashboard/analysis',
+      hideInMenu: true,
+    },
+    // 自定义菜单项渲染
+    menuItemRender: (item: any, defaultDom: React.ReactNode) => {
+      // 如果是首页，不渲染
+      if (item.path === '/dashboard/analysis') {
+        return null;
+      }
+      return defaultDom;
+    },
     headerContentRender: () => {
       return (
         <Space size="large" style={{ marginLeft: 24 }}>
@@ -99,6 +135,21 @@ export const layout: RunTimeLayoutConfig = () => {
 
       return (
         <Space size="middle">
+          {/* 菜单模式切换 */}
+          <Tooltip title={menuMode === 'expanded' ? '切换为悬浮菜单' : '切换为常驻菜单'}>
+            <Button
+              type="text"
+              icon={menuMode === 'expanded' ? <MenuFoldOutlined /> : <MenuUnfoldOutlined />}
+              onClick={() => {
+                const newMode = menuMode === 'expanded' ? 'collapsed' : 'expanded';
+                setMenuMode(newMode);
+                storeMenuMode(newMode);
+                window.location.reload();
+              }}
+            >
+              {menuMode === 'expanded' ? '常驻菜单' : '悬浮菜单'}
+            </Button>
+          </Tooltip>
           <Button type="text" icon={<QuestionCircleOutlined />}>知识库</Button>
           <Button type="text" icon={<DownloadOutlined />}>下载</Button>
           <Badge count={5} size="small">
@@ -126,152 +177,62 @@ export const layout: RunTimeLayoutConfig = () => {
       margin: 0,
     },
     childrenRender: (children: React.ReactNode) => {
-      return <TabLayout>{children}</TabLayout>;
-    },
-    onPageChange: () => {
-      const { location } = history;
-      console.log('Page changed:', location.pathname);
+      return <TabLayout menuMode={menuMode}>{children}</TabLayout>;
     },
   };
 };
 
 // 标签页布局组件
-const TabLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+const TabLayout: React.FC<{ children: React.ReactNode; menuMode: 'expanded' | 'collapsed' }> = ({ children, menuMode }) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { dropScope, refreshScope } = useAliveController?.() || {};
   
   const [tabs, setTabs] = useState<TabItem[]>(getStoredTabs);
   const [activeKey, setActiveKey] = useState(location.pathname);
 
-  // 路由映射表（用于根据路径获取菜单名称）
+  // 路由映射表
   const routeMap: Record<string, { label: string; icon?: React.ReactNode }> = {
     '/dashboard/analysis': { label: '首页', icon: <HomeOutlined /> },
     '/business/checkout/shift': { label: '交班结账' },
     '/business/checkout/report': { label: '营业报表' },
     '/business/payment/orders': { label: '支付订单' },
-    '/business/payment/refunds': { label: '退款记录' },
-    '/business/payment/reconciliation': { label: '支付对账' },
+    '/business/payment/refunds': { label: '订单退款记录' },
+    '/business/payment/reconciliation': { label: '支付方式对账' },
     '/business/query/data': { label: '营业数据' },
     '/business/query/sales': { label: '销售查询' },
-    '/business/other/income': { label: '其他收入' },
-    '/business/other/expense': { label: '其他支出' },
+    '/business/query/entry': { label: '交账录入' },
+    '/business/query/history': { label: '历史账目' },
+    '/business/query/coin-price': { label: '币单价' },
+    '/business/query/avg-price': { label: '客单价' },
+    '/business/query/revenue': { label: '确收报表' },
+    '/business/query/comparison': { label: '经营对比' },
+    '/business/query/asset-recon': { label: '门店资产对账' },
+    '/business/query/physical-coin': { label: '门店实物币对账' },
+    '/business/query/roaming': { label: '漫游对账' },
+    '/business/other/income': { label: '其他收入查询' },
+    '/business/other/expense': { label: '其他支出查询' },
+    '/business/other/settings': { label: '其他收支设置' },
     '/business/ledger/parties': { label: '分账方' },
     '/business/ledger/query': { label: '分账查询' },
     '/business/payment-mgmt': { label: '支付管理' },
-    '/package/coin-ticket/coin': { label: '售币套餐' },
-    '/package/coin-ticket/ticket': { label: '门票套餐' },
-    '/package/combo/gift': { label: '充值大礼包' },
-    '/package/combo/sales': { label: '组合销售' },
-    '/package/member/coin': { label: '代币入会' },
-    '/package/member/ticket': { label: '门票入会' },
-    '/package/marble': { label: '弹珠套餐' },
-    '/package/machine/time': { label: '机台包时' },
-    '/package/machine/rounds': { label: '机台局数' },
-    '/package/other/misc': { label: '杂项套餐' },
-    '/package/other/convert': { label: '资产转换' },
-    '/package/other/birthday': { label: '生日套餐' },
-    '/package/other/upgrade': { label: '会员升级' },
-    '/package/other/borrow': { label: '借卡套餐' },
-    '/package/group/channel-config': { label: '渠道配置' },
-    '/package/group/channel-package': { label: '渠道套餐' },
-    '/package/group/qr-code': { label: '一物一码' },
-    '/package/settings/pos': { label: '销售位置' },
-    '/package/assets/coupon': { label: '优惠券管理' },
-    '/package/assets/points': { label: '积分管理' },
-    '/package/assets/gift-card': { label: '礼品卡管理' },
-    '/product/info': { label: '商品资料' },
-    '/product/inventory/purchase-request': { label: '商品申购' },
-    '/product/inventory/purchase': { label: '商品采购' },
-    '/product/inventory/mgmt': { label: '库存管理' },
-    '/product/inventory/transfer': { label: '商品调拨' },
-    '/product/inventory/stocktaking': { label: '库存盘点' },
-    '/product/query/stock': { label: '库存查询' },
-    '/product/query/changes': { label: '库存变动' },
-    '/product/settings/basic': { label: '基础设置' },
-    '/product/settings/warehouse': { label: '仓库设置' },
-    '/product/settings/supplier': { label: '供应商管理' },
-    '/marketing/center/main': { label: '营销中心' },
-    '/marketing/center/promotion': { label: '促销营销' },
-    '/marketing/center/machine': { label: '机台营销' },
-    '/marketing/center/member': { label: '会员营销' },
-    '/marketing/atmosphere/daily': { label: '日常氛围' },
-    '/marketing/atmosphere/event': { label: '活动氛围' },
-    '/marketing/notice/mgmt': { label: '通知管理' },
-    '/member/mgmt/level': { label: '会员级别' },
-    '/member/mgmt/benefits': { label: '会员权益' },
-    '/member/mgmt/tags': { label: '会员标签' },
-    '/member/upgrade': { label: '会员升降级' },
-    '/member/card/mgmt': { label: '会员卡管理' },
-    '/miniprogram/wechat/decorate': { label: '小程序装修' },
-    '/miniprogram/wechat/settings': { label: '小程序设置' },
-    '/miniprogram/wechat/store': { label: '门店管理' },
-    '/miniprogram/alliance/merchants': { label: '异业商户' },
-    '/miniprogram/jd/orders': { label: '京东礼品订单' },
-    '/miniprogram/self/mall': { label: '自营礼品商城' },
-    '/miniprogram/query/orders': { label: '小程序订单' },
-    '/report/dashboard': { label: '数据大屏' },
-    '/report/custom': { label: '定制报表' },
-    '/report/sales/query': { label: '销售查询' },
-    '/report/sales/trend': { label: '销售趋势' },
-    '/report/exchange/query': { label: '兑换查询' },
-    '/report/exchange/recycle': { label: '回收记录' },
-    '/report/machine': { label: '机台报表' },
-    '/report/member': { label: '会员报表' },
-    '/report/project/consumption': { label: '大项目消费' },
-    '/report/equipment': { label: '设备报表' },
-    '/report/audit/auth': { label: '授权记录' },
-    '/report/audit/ai-risk': { label: 'AI风控记录' },
-    '/equipment/dashboard': { label: '设备看板' },
-    '/equipment/game/archive': { label: '游戏机档案' },
-    '/equipment/game/inventory': { label: '游戏机库存' },
-    '/equipment/game/status': { label: '游戏机状态' },
-    '/equipment/project/mgmt': { label: '大项目管理' },
-    '/equipment/business': { label: '营业设备' },
-    '/equipment/lottery': { label: '抽奖机' },
-    '/equipment/gift-cabinet': { label: '礼品柜' },
-    '/equipment/rental/projects': { label: '租赁项目' },
-    '/equipment/rental/records': { label: '租赁记录' },
-    '/equipment/base-station/area': { label: '区域基站' },
-    '/equipment/group': { label: '机台分组' },
-    '/sports/mgmt/badge': { label: '徽章设置' },
-    '/sports/mgmt/privilege': { label: '特权设置' },
-    '/sports/mgmt/exp-level': { label: '经验值等级' },
-    '/sports/mgmt/functions': { label: '功能项目' },
-    '/sports/mgmt/checkpoint': { label: '打卡点管理' },
-    '/sports/mgmt/route': { label: '路线管理' },
-    '/sports/mgmt/ranking': { label: '排行榜' },
-    '/sports/equipment/checkpoint': { label: '打卡设备' },
-    '/sports/equipment/service-station': { label: '玩家服务站' },
-    '/sports/team/coach': { label: '教练登记' },
-    '/sports/team/orders': { label: '团建订单' },
-    '/sports/query/route': { label: '路线使用查询' },
-    '/sports/query/energy': { label: '会员能量查询' },
-    '/settings/user/mgmt': { label: '用户管理' },
-    '/settings/user/department': { label: '部门管理' },
-    '/settings/store/mgmt': { label: '门店管理' },
-    '/settings/store/tags': { label: '标签管理' },
-    '/settings/ai-risk/settings': { label: '风控设置' },
-    '/settings/system/params': { label: '系统参数' },
-    '/settings/system/business-date': { label: '营业日期' },
-    '/settings/logs/operation': { label: '操作日志' },
-  };
-
-  // 获取路由标签
-  const getRouteLabel = (path: string): { label: string; icon?: React.ReactNode } => {
-    // 精确匹配
-    if (routeMap[path]) {
-      return routeMap[path];
-    }
-    // 尝试匹配父路径
-    const parts = path.split('/').filter(Boolean);
-    for (let i = parts.length; i > 0; i--) {
-      const parentPath = '/' + parts.slice(0, i).join('/');
-      if (routeMap[parentPath]) {
-        return routeMap[parentPath];
-      }
-    }
-    return { label: '未命名页面' };
+    '/package/management': { label: '套餐管理' },
+    '/package/sales': { label: '套餐销售' },
+    '/product/list': { label: '商品列表' },
+    '/product/inventory': { label: '库存管理' },
+    '/marketing/coupon': { label: '优惠券' },
+    '/marketing/activity': { label: '活动管理' },
+    '/member/profile': { label: '会员档案' },
+    '/member/points': { label: '积分管理' },
+    '/miniprogram/settings': { label: '小程序设置' },
+    '/miniprogram/decorate': { label: '页面装修' },
+    '/report/business': { label: '营业查询' },
+    '/report/finance': { label: '财务报表' },
+    '/equipment/monitor': { label: '设备监控' },
+    '/equipment/maintenance': { label: '维护记录' },
+    '/sports/items': { label: '运动项目' },
+    '/sports/booking': { label: '预约管理' },
+    '/settings/system': { label: '系统设置' },
+    '/settings/permission': { label: '权限管理' },
   };
 
   // 监听路由变化，自动添加标签页
@@ -279,89 +240,64 @@ const TabLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const currentPath = location.pathname;
     setActiveKey(currentPath);
 
-    // 检查是否已存在该标签
-    const existingTab = tabs.find(tab => tab.key === currentPath);
-    if (!existingTab) {
-      const routeInfo = getRouteLabel(currentPath);
-      const newTab: TabItem = {
-        key: currentPath,
-        label: routeInfo.label,
-        icon: routeInfo.icon,
-        closable: currentPath !== '/dashboard/analysis',
-      };
-      const newTabs = [...tabs, newTab];
-      setTabs(newTabs);
-      storeTabs(newTabs);
+    // 如果当前路由不在标签页中，添加它
+    const exists = tabs.find(tab => tab.key === currentPath);
+    if (!exists) {
+      const routeInfo = routeMap[currentPath];
+      if (routeInfo) {
+        const newTabs = [...tabs, {
+          key: currentPath,
+          label: routeInfo.label,
+          icon: routeInfo.icon,
+          closable: currentPath !== '/dashboard/analysis', // 首页不可关闭
+        }];
+        setTabs(newTabs);
+        storeTabs(newTabs);
+      }
     }
   }, [location.pathname]);
 
-  // 切换标签页
+  // 处理标签页切换
   const handleTabChange = (key: string) => {
+    setActiveKey(key);
     navigate(key);
   };
 
-  // 关闭标签页
+  // 处理标签页关闭
   const handleTabClose = (targetKey: string) => {
-    const targetIndex = tabs.findIndex(tab => tab.key === targetKey);
     const newTabs = tabs.filter(tab => tab.key !== targetKey);
-    
-    // 如果关闭的是当前标签，切换到相邻标签
-    if (targetKey === activeKey && newTabs.length > 0) {
-      const newActiveKey = newTabs[Math.min(targetIndex, newTabs.length - 1)].key;
-      navigate(newActiveKey);
-    }
-    
     setTabs(newTabs);
     storeTabs(newTabs);
-    
-    // 清除 keepalive 缓存
-    if (dropScope) {
-      dropScope(targetKey);
+
+    // 如果关闭的是当前标签页，切换到上一个标签页
+    if (targetKey === activeKey) {
+      const currentIndex = tabs.findIndex(tab => tab.key === targetKey);
+      const newActiveKey = tabs[currentIndex - 1]?.key || tabs[0]?.key;
+      if (newActiveKey) {
+        setActiveKey(newActiveKey);
+        navigate(newActiveKey);
+      }
     }
   };
 
-  // 关闭其他标签页
-  const handleCloseOthers = (targetKey: string) => {
-    const homeTab = tabs.find(tab => tab.key === '/dashboard/analysis');
-    const targetTab = tabs.find(tab => tab.key === targetKey);
-    
-    if (homeTab && targetTab) {
-      const newTabs = targetKey === '/dashboard/analysis' 
-        ? [homeTab]
-        : [homeTab, { ...targetTab, closable: true }];
-      setTabs(newTabs);
-      storeTabs(newTabs);
-      navigate(targetKey);
-    }
-  };
-
-  // 关闭所有标签页
-  const handleCloseAll = () => {
-    const homeTab = tabs.find(tab => tab.key === '/dashboard/analysis');
-    if (homeTab) {
-      setTabs([homeTab]);
-      storeTabs([homeTab]);
-      navigate('/dashboard/analysis');
-    }
-  };
-
-  // 刷新当前标签页
-  const handleRefresh = () => {
-    if (refreshScope) {
-      refreshScope(activeKey);
-      message.success('页面已刷新');
-    } else {
-      window.location.reload();
-    }
-  };
+  // 自定义标签页渲染
+  const renderTabBar = (props: any, DefaultTabBar: React.ComponentType<any>) => (
+    <DefaultTabBar {...props}>
+      {(node: React.ReactNode) => (
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          {node}
+        </div>
+      )}
+    </DefaultTabBar>
+  );
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
       {/* 标签页栏 */}
-      <div style={{ 
-        background: '#f5f5f5', 
-        borderBottom: '1px solid #e8e8e8',
-        padding: '4px 8px 0',
+      <div style={{
+        background: '#fff',
+        borderBottom: '1px solid #f0f0f0',
+        padding: '8px 16px 0',
       }}>
         <Tabs
           type="editable-card"
@@ -377,20 +313,17 @@ const TabLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             key: tab.key,
             label: (
               <span>
-                {tab.icon && <span style={{ marginRight: 4 }}>{tab.icon}</span>}
+                {tab.icon}
                 {tab.label}
               </span>
             ),
             closable: tab.closable,
           }))}
-          size="small"
-          style={{ marginBottom: 0 }}
-          tabBarStyle={{ margin: 0 }}
         />
       </div>
-      
+
       {/* 内容区域 */}
-      <div style={{ flex: 1, overflow: 'auto', background: '#f0f2f5' }}>
+      <div style={{ flex: 1, overflow: 'auto', padding: 24 }}>
         {children}
       </div>
     </div>

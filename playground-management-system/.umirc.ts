@@ -14,8 +14,10 @@ export default defineConfig({
   layout: {
     title: '游乐场管理系统',
     locale: false,
-    siderWidth: 200,
+    siderWidth: 220,
     splitMenus: false,
+    // 菜单默认全部展开（常驻显示模式）
+    defaultCollapsed: false,
     keepalive: ['/dashboard/analysis', '/business/:path*', '/package/:path*', '/product/:path*', '/marketing/:path*', '/member/:path*', '/miniprogram/:path*', '/report/:path*', '/equipment/:path*', '/sports/:path*', '/settings/:path*'],
   },
   routes: [

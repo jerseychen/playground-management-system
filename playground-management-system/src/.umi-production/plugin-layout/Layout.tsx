@@ -82,8 +82,9 @@ export default (props: any) => {
   const userConfig = {
   "title": "游乐场管理系统",
   "locale": false,
-  "siderWidth": 200,
+  "siderWidth": 220,
   "splitMenus": false,
+  "defaultCollapsed": false,
   "keepalive": [
     "/dashboard/analysis",
     "/business/:path*",
