@@ -8,9 +8,10 @@
     "scripts": {
       "dev": "max dev",
       "build": "max build",
-      "deploy": "max build && echo 'Build completed'",
+      "deploy": "max build && gh-pages -d dist",
       "start": "npm run dev"
     },
+    "homepage": "https://jerseychen.github.io/playground-management-system/",
     "dependencies": {
       "@ant-design/icons": "^5.2.6",
       "@ant-design/pro-components": "^2.6.48",
@@ -23,6 +24,7 @@
     "devDependencies": {
       "@types/react": "^18.2.0",
       "@types/react-dom": "^18.2.0",
+      "gh-pages": "^6.3.0",
       "tailwindcss": "^4.2.1",
       "typescript": "^5.3.0"
     }
@@ -51,7 +53,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 9
+        "register": 26
       },
       "enableBy": "register"
     },
@@ -64,7 +66,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 4
+        "register": 8
       },
       "enableBy": "register"
     },
@@ -81,7 +83,7 @@
             0
           ]
         },
-        "register": 2
+        "register": 5
       },
       "enableBy": "register"
     },
@@ -95,10 +97,10 @@
       "time": {
         "hooks": {
           "onStart": [
-            1
+            2
           ]
         },
-        "register": 2
+        "register": 3
       },
       "enableBy": "register"
     },
@@ -128,7 +130,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -142,10 +144,10 @@
       "time": {
         "hooks": {
           "modifyAppData": [
-            74
+            72
           ]
         },
-        "register": 18
+        "register": 102
       },
       "enableBy": "register"
     },
@@ -195,7 +197,7 @@
             0
           ]
         },
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -225,7 +227,7 @@
             0
           ]
         },
-        "register": 6
+        "register": 11
       },
       "enableBy": "register"
     },
@@ -1120,7 +1122,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 63
+        "register": 89
       },
       "enableBy": "register"
     },
@@ -1133,7 +1135,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 29
+        "register": 54
       },
       "enableBy": "config"
     },
@@ -1146,7 +1148,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 10
+        "register": 15
       },
       "enableBy": "config"
     },
@@ -1189,7 +1191,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 3
+        "register": 2
       },
       "enableBy": "config"
     },
@@ -1202,7 +1204,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 23
+        "register": 39
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/mpa/mpa": {
@@ -1214,7 +1216,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 2
       },
       "enableBy": "config"
     },
@@ -1227,7 +1229,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/overrides/overrides": {
@@ -1239,7 +1241,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -1266,7 +1268,7 @@
       "time": {
         "hooks": {
           "modifyConfig": [
-            0
+            1
           ]
         },
         "register": 2
@@ -1281,7 +1283,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -1294,7 +1296,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 2
       },
       "enableBy": "register"
     },
@@ -1307,7 +1309,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "config"
     },
@@ -1320,7 +1322,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "config"
     },
@@ -1346,7 +1348,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 4
+        "register": 5
       },
       "enableBy": "register"
     },
@@ -1359,7 +1361,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 2
       },
       "enableBy": "config"
     },
@@ -1372,7 +1374,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/ssr/ssr": {
@@ -1384,7 +1386,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 2
+        "register": 3
       },
       "enableBy": "config"
     },
@@ -1397,7 +1399,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 2
+        "register": 3
       },
       "enableBy": "register"
     },
@@ -1410,7 +1412,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 2
+        "register": 4
       },
       "enableBy": "register"
     },
@@ -1449,7 +1451,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 5
+        "register": 7
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/monorepo/redirect": {
@@ -1461,7 +1463,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 16
+        "register": 23
       },
       "enableBy": "config"
     },
@@ -1511,7 +1513,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "config"
     },
@@ -1540,7 +1542,7 @@
             0
           ]
         },
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -1553,7 +1555,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 2
+        "register": 4
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/mako/mako": {
@@ -1602,7 +1604,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 23
+        "register": 28
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/forget/forget": {
@@ -1614,7 +1616,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 2
       },
       "enableBy": "config"
     },
@@ -1640,7 +1642,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 3
+        "register": 4
       },
       "enableBy": "register"
     },
@@ -1653,7 +1655,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 25
+        "register": 31
       },
       "enableBy": "register"
     },
@@ -1666,7 +1668,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 27
+        "register": 48
       }
     },
     "./node_modules/@umijs/preset-umi/dist/commands/help": {
@@ -1678,7 +1680,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -1717,7 +1719,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -1730,7 +1732,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -1743,7 +1745,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 2
+        "register": 3
       },
       "enableBy": "register"
     },
@@ -1769,7 +1771,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -1782,7 +1784,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -1795,7 +1797,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -1847,7 +1849,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -1912,7 +1914,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 17
+        "register": 21
       },
       "enableBy": "register"
     },
@@ -1938,7 +1940,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 2
+        "register": 3
       },
       "enableBy": "register"
     },
@@ -1951,7 +1953,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 2
       },
       "enableBy": "config"
     },
@@ -1979,7 +1981,7 @@
       "time": {
         "hooks": {
           "modifyConfig": [
-            1
+            2
           ],
           "modifyAppData": [
             0
@@ -1988,7 +1990,7 @@
             0
           ]
         },
-        "register": 5
+        "register": 8
       }
     },
     "./node_modules/@umijs/plugins/dist/dva": {
@@ -2000,7 +2002,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 5
+        "register": 6
       },
       "enableBy": "config"
     },
@@ -2038,7 +2040,7 @@
             0
           ]
         },
-        "register": 2
+        "register": 3
       },
       "enableBy": "config"
     },
@@ -2051,7 +2053,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 2
+        "register": 3
       },
       "enableBy": "config"
     },
@@ -2064,7 +2066,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 3
       },
       "enableBy": "config"
     },
@@ -2103,7 +2105,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 2
       },
       "enableBy": "register"
     },
@@ -2116,7 +2118,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 2
       }
     },
     "./node_modules/@umijs/plugins/dist/qiankun/slave": {
@@ -2140,7 +2142,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "config"
     },
@@ -2153,7 +2155,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "config"
     },
@@ -2179,7 +2181,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 3
       },
       "enableBy": "config"
     },
@@ -2209,7 +2211,7 @@
             0
           ]
         },
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -2273,7 +2275,7 @@
     "initialState": {},
     "request": {},
     "tailwindcss": false,
-    "publicPath": "/playground-management-system/",
+    "publicPath": "/",
     "history": {
       "type": "hash"
     },
@@ -3332,7 +3334,7 @@
     },
     "base": "/",
     "svgr": {},
-    "publicPath": "/playground-management-system/",
+    "publicPath": "/",
     "mfsu": {
       "strategy": "eager"
     },
@@ -5334,7 +5336,7 @@
       "parentId": "ant-design-pro-layout",
       "id": "2",
       "absPath": "/dashboard/analysis",
-      "__content": "import React, { useState } from 'react';\nimport {\n  LineChart,\n  Line,\n  XAxis,\n  YAxis,\n  CartesianGrid,\n  Tooltip,\n  Legend,\n  ResponsiveContainer,\n  PieChart,\n  Pie,\n  Cell,\n  BarChart,\n  Bar,\n} from 'recharts';\nimport {\n  Card,\n  Row,\n  Col,\n  Statistic,\n  Table,\n  Tag,\n  Space,\n  Button,\n  Badge,\n  Typography,\n  Tabs,\n  DatePicker,\n  Select,\n  Radio,\n} from 'antd';\nimport {\n  ArrowUpOutlined,\n  ArrowDownOutlined,\n  ShoppingCartOutlined,\n  UserOutlined,\n  DesktopOutlined,\n  GiftOutlined,\n  ExportOutlined,\n  PrinterOutlined,\n  ReloadOutlined,\n  ShopOutlined,\n  CalendarOutlined,\n} from '@ant-design/icons';\nimport type { TabsProps } from 'antd';\n\nconst { Title, Text } = Typography;\nconst { RangePicker } = DatePicker;\nconst { Option } = Select;\n\n// 趋势数据\nconst trendData = [\n  { name: '周一', revenue: 12000, coin: 8500, member: 320 },\n  { name: '周二', revenue: 15000, coin: 9200, member: 380 },\n  { name: '周三', revenue: 18000, coin: 10500, member: 450 },\n  { name: '周四', revenue: 14000, coin: 8800, member: 360 },\n  { name: '周五', revenue: 22000, coin: 12800, member: 520 },\n  { name: '周六', revenue: 28000, coin: 15600, member: 680 },\n  { name: '周日', revenue: 25000, coin: 14200, member: 610 },\n];\n\n// 营收构成数据 - 按渠道\nconst revenueByChannel = [\n  { name: '线下门店', value: 45, color: '#1890ff' },\n  { name: '微信小程序', value: 30, color: '#52c41a' },\n  { name: '美团/大众点评', value: 15, color: '#faad14' },\n  { name: '抖音', value: 10, color: '#f5222d' },\n];\n\n// 营收构成数据 - 按支付方式\nconst revenueByPayment = [\n  { name: '微信支付', value: 40, color: '#1890ff' },\n  { name: '支付宝', value: 35, color: '#52c41a' },\n  { name: '现金', value: 15, color: '#faad14' },\n  { name: '银行卡', value: 10, color: '#f5222d' },\n];\n\n// 机台投币数据\nconst machineData = [\n  { name: '彩票机', value: 30, color: '#722ed1' },\n  { name: '礼品机', value: 25, color: '#13c2c2' },\n  { name: '中性机', value: 20, color: '#eb2f96' },\n  { name: '模拟机', value: 15, color: '#f5222d' },\n  { name: '大项目', value: 10, color: '#fa8c16' },\n];\n\n// 门店排名数据\nconst storeRankingData = [\n  { key: '1', rank: 1, name: '万达广场店', revenue: '¥45,280', coin: '¥32,580', growth: '+12.5%', status: 'up' },\n  { key: '2', rank: 2, name: '银泰城店', revenue: '¥38,560', coin: '¥28,960', growth: '+8.3%', status: 'up' },\n  { key: '3', rank: 3, name: '龙湖天街店', revenue: '¥32,180', coin: '¥25,680', growth: '-2.1%', status: 'down' },\n  { key: '4', rank: 4, name: '万象城店', revenue: '¥28,950', coin: '¥22,580', growth: '+5.7%', status: 'up' },\n  { key: '5', rank: 5, name: '大悦城店', revenue: '¥25,620', coin: '¥19,860', growth: '+3.2%', status: 'up' },\n];\n\n// 机台投币明细数据\nconst machineDetailData = [\n  { key: '1', no: 1, name: '抓娃娃机-A01', code: 'M001', coins: 1250, gifts: 45, faults: 0, status: 'normal', type: '礼品机' },\n  { key: '2', no: 2, name: '赛车模拟器-B02', code: 'M002', coins: 980, gifts: 0, faults: 1, status: 'warning', type: '模拟机' },\n  { key: '3', no: 3, name: '投篮机-C03', code: 'M003', coins: 1560, gifts: 0, faults: 0, status: 'normal', type: '彩票机' },\n  { key: '4', no: 4, name: '跳舞机-D04', code: 'M004', coins: 890, gifts: 0, faults: 0, status: 'normal', type: '模拟机' },\n  { key: '5', no: 5, name: '礼品机-E05', code: 'M005', coins: 2100, gifts: 78, faults: 2, status: 'warning', type: '礼品机' },\n];\n\n// 会员排行数据 - 按充值\nconst memberByRecharge = [\n  { key: '1', rank: 1, id: 'M10001', level: '钻石会员', amount: '¥12,580', count: 45, lastTime: '2026-03-10' },\n  { key: '2', rank: 2, id: 'M10023', level: '钻石会员', amount: '¥10,230', count: 38, lastTime: '2026-03-10' },\n  { key: '3', rank: 3, id: 'M10056', level: '白金会员', amount: '¥8,950', count: 32, lastTime: '2026-03-09' },\n  { key: '4', rank: 4, id: 'M10089', level: '白金会员', amount: '¥7,680', count: 28, lastTime: '2026-03-09' },\n  { key: '5', rank: 5, id: 'M10112', level: '黄金会员', amount: '¥6,420', count: 25, lastTime: '2026-03-08' },\n];\n\n// 会员排行数据 - 按投币\nconst memberByCoin = [\n  { key: '1', rank: 1, id: 'M20001', level: '钻石会员', amount: '¥8,580', count: 65, lastTime: '2026-03-10' },\n  { key: '2', rank: 2, id: 'M20023', level: '白金会员', amount: '¥7,230', count: 58, lastTime: '2026-03-10' },\n  { key: '3', rank: 3, id: 'M20056', level: '白金会员', amount: '¥6,950', count: 52, lastTime: '2026-03-09' },\n  { key: '4', rank: 4, id: 'M20089', level: '黄金会员', amount: '¥5,680', count: 48, lastTime: '2026-03-09' },\n  { key: '5', rank: 5, id: 'M20112', level: '黄金会员', amount: '¥4,420', count: 45, lastTime: '2026-03-08' },\n];\n\n// 大项目数据\nconst projectData = [\n  { name: '淘气堡', value: 8500 },\n  { name: '电玩区', value: 7200 },\n  { name: 'VR体验', value: 5800 },\n  { name: '攀岩墙', value: 4200 },\n  { name: '蹦床区', value: 3600 },\n];\n\n// 知识库数据\nconst knowledgeData = [\n  { title: '系统更新说明 V2.5.0', date: '2026-03-10', content: '新增AI风控功能，优化会员管理模块' },\n  { title: '系统更新说明 V2.4.0', date: '2026-02-28', content: '新增数据大屏功能，优化报表查询' },\n];\n\n// 运营资讯数据\nconst newsData = [\n  { type: '系统公告', title: '系统将于今晚 02:00 进行例行维护', date: '2026-03-11', color: 'blue' },\n  { type: '运营提醒', title: '本周六日预计客流量较大，请提前准备', date: '2026-03-10', color: 'orange' },\n  { type: '营销活动', title: '春季特惠活动已上线，充值满500送100', date: '2026-03-09', color: 'green' },\n];\n\nconst Analysis: React.FC = () => {\n  const [trendTab, setTrendTab] = useState('revenue');\n  const [revenueTab, setRevenueTab] = useState('channel');\n  const [storeTab, setStoreTab] = useState('revenue');\n  const [machineTab, setMachineTab] = useState('tag');\n  const [machineDetailTab, setMachineDetailTab] = useState('all');\n  const [memberTab, setMemberTab] = useState('recharge');\n\n  // 快捷入口按钮\n  const quickEntries = [\n    { icon: <ShoppingCartOutlined />, label: '快速收银', color: '#1890ff' },\n    { icon: <UserOutlined />, label: '快速办卡', color: '#52c41a' },\n    { icon: <DesktopOutlined />, label: '设备报修', color: '#faad14' },\n    { icon: <GiftOutlined />, label: '礼品兑换', color: '#f5222d' },\n    { icon: <ExportOutlined />, label: '数据导出', color: '#722ed1' },\n    { icon: <PrinterOutlined />, label: '打印小票', color: '#13c2c2' },\n  ];\n\n  // 表格列定义\n  const storeColumns = [\n    { title: '排名', dataIndex: 'rank', key: 'rank', width: 60 },\n    { title: '门店名称', dataIndex: 'name', key: 'name' },\n    { title: storeTab === 'revenue' ? '营业收入' : '耗币数', dataIndex: storeTab === 'revenue' ? 'revenue' : 'coin', key: 'amount' },\n    {\n      title: '环比增长',\n      dataIndex: 'growth',\n      key: 'growth',\n      render: (text: string, record: any) => (\n        <span style={{ color: record.status === 'up' ? '#52c41a' : '#f5222d' }}>\n          {record.status === 'up' ? <ArrowUpOutlined /> : <ArrowDownOutlined />} {text}\n        </span>\n      ),\n    },\n  ];\n\n  const machineColumns = [\n    { title: '序号', dataIndex: 'no', key: 'no', width: 60 },\n    { title: '设备名称', dataIndex: 'name', key: 'name' },\n    { title: '设备编号', dataIndex: 'code', key: 'code' },\n    { title: '投币数', dataIndex: 'coins', key: 'coins' },\n    { title: '出礼品数', dataIndex: 'gifts', key: 'gifts' },\n    { title: '故障次数', dataIndex: 'faults', key: 'faults' },\n    {\n      title: '状态',\n      dataIndex: 'status',\n      key: 'status',\n      render: (status: string) => (\n        <Badge status={status === 'normal' ? 'success' : 'warning'} text={status === 'normal' ? '正常' : '异常'} />\n      ),\n    },\n  ];\n\n  const memberColumns = [\n    { title: '排名', dataIndex: 'rank', key: 'rank', width: 60 },\n    { title: '会员ID', dataIndex: 'id', key: 'id' },\n    {\n      title: '会员等级',\n      dataIndex: 'level',\n      key: 'level',\n      render: (level: string) => {\n        const color = level === '钻石会员' ? 'gold' : level === '白金会员' ? 'purple' : 'blue';\n        return <Tag color={color}>{level}</Tag>;\n      },\n    },\n    { title: memberTab === 'recharge' ? '充值金额' : '投币金额', dataIndex: 'amount', key: 'amount' },\n    { title: '消费次数', dataIndex: 'count', key: 'count' },\n    { title: '最近消费', dataIndex: 'lastTime', key: 'lastTime' },\n  ];\n\n  // 趋势分析 Tab\n  const trendTabItems: TabsProps['items'] = [\n    { key: 'revenue', label: '营业额' },\n    { key: 'coin', label: '耗币数' },\n    { key: 'member', label: '会员' },\n  ];\n\n  // 营收构成 Tab\n  const revenueTabItems: TabsProps['items'] = [\n    { key: 'channel', label: '按渠道' },\n    { key: 'tag', label: '按经营标签' },\n    { key: 'package', label: '按套餐' },\n    { key: 'customer', label: '按顾客' },\n    { key: 'payment', label: '按支付方式' },\n  ];\n\n  // 门店排名 Tab\n  const storeTabItems: TabsProps['items'] = [\n    { key: 'revenue', label: '营业额' },\n    { key: 'coin', label: '耗币数' },\n  ];\n\n  // 机台投币概况 Tab\n  const machineTabItems: TabsProps['items'] = [\n    { key: 'tag', label: '按经营标签' },\n    { key: 'type', label: '按机台分类' },\n  ];\n\n  // 机台投币明细 Tab\n  const machineDetailTabItems: TabsProps['items'] = [\n    { key: 'all', label: '全部' },\n    { key: 'lottery', label: '彩票机' },\n    { key: 'gift', label: '礼品机' },\n    { key: 'neutral', label: '中性机' },\n    { key: 'sim', label: '模拟机' },\n    { key: 'project', label: '大项目' },\n  ];\n\n  // 会员排行 Tab\n  const memberTabItems: TabsProps['items'] = [\n    { key: 'recharge', label: '充值' },\n    { key: 'coin', label: '投币' },\n    { key: 'ticket', label: '存奖票' },\n    { key: 'exchange', label: '兑换礼品' },\n    { key: 'recycle', label: '回收礼品' },\n  ];\n\n  return (\n    <div style={{ padding: 24, background: '#f0f2f5', minHeight: '100vh' }}>\n      {/* 顶部筛选栏 */}\n      <Card style={{ marginBottom: 24 }}>\n        <Row gutter={[16, 16]} align=\"middle\">\n          <Col>\n            <Space>\n              <span>营业日期：</span>\n              <Radio.Group defaultValue=\"today\">\n                <Radio.Button value=\"today\">今日</Radio.Button>\n                <Radio.Button value=\"yesterday\">昨日</Radio.Button>\n                <Radio.Button value=\"week\">本周</Radio.Button>\n                <Radio.Button value=\"lastweek\">上周</Radio.Button>\n                <Radio.Button value=\"month\">本月</Radio.Button>\n                <Radio.Button value=\"lastmonth\">上月</Radio.Button>\n                <Radio.Button value=\"year\">本年</Radio.Button>\n              </Radio.Group>\n            </Space>\n          </Col>\n          <Col>\n            <RangePicker />\n          </Col>\n          <Col>\n            <Text type=\"secondary\">数据更新时间：2026-03-12 00:35:00</Text>\n          </Col>\n          <Col flex=\"auto\" style={{ textAlign: 'right' }}>\n            <Space>\n              <Select defaultValue=\"all\" style={{ width: 150 }} suffixIcon={<ShopOutlined />}>\n                <Option value=\"all\">全部门店</Option>\n                <Option value=\"store1\">万达广场店</Option>\n                <Option value=\"store2\">银泰城店</Option>\n                <Option value=\"store3\">龙湖天街店</Option>\n              </Select>\n              <Button icon={<ReloadOutlined />}>刷新</Button>\n            </Space>\n          </Col>\n        </Row>\n      </Card>\n\n      {/* 快捷入口 */}\n      <Card style={{ marginBottom: 24 }}>\n        <Row gutter={[16, 16]}>\n          {quickEntries.map((item, index) => (\n            <Col key={index} xs={12} sm={8} md={4}>\n              <Button\n                type=\"dashed\"\n                style={{\n                  width: '100%',\n                  height: 80,\n                  display: 'flex',\n                  flexDirection: 'column',\n                  alignItems: 'center',\n                  justifyContent: 'center',\n                  borderColor: item.color,\n                  color: item.color,\n                }}\n              >\n                <div style={{ fontSize: 24, marginBottom: 8 }}>{item.icon}</div>\n                <div>{item.label}</div>\n              </Button>\n            </Col>\n          ))}\n        </Row>\n      </Card>\n\n      {/* 核心指标卡片 */}\n      <Row gutter={[16, 16]} style={{ marginBottom: 24 }}>\n        <Col xs={24} sm={12} md={8} lg={4}>\n          <Card>\n            <Statistic\n              title=\"今日营业额\"\n              value={12580}\n              precision={2}\n              prefix=\"¥\"\n              valueStyle={{ color: '#1890ff' }}\n              suffix={<span style={{ fontSize: 12, color: '#52c41a' }}><ArrowUpOutlined /> 12.5%</span>}\n            />\n          </Card>\n        </Col>\n        <Col xs={24} sm={12} md={8} lg={4}>\n          <Card>\n            <Statistic\n              title=\"今日客流量\"\n              value={358}\n              suffix=\"人\"\n              valueStyle={{ color: '#52c41a' }}\n            />\n          </Card>\n        </Col>\n        <Col xs={24} sm={12} md={8} lg={4}>\n          <Card>\n            <Statistic\n              title=\"会员客单价\"\n              value={68.5}\n              precision={1}\n              prefix=\"¥\"\n              valueStyle={{ color: '#722ed1' }}\n            />\n          </Card>\n        </Col>\n        <Col xs={24} sm={12} md={8} lg={4}>\n          <Card>\n            <Statistic\n              title=\"散客客单价\"\n              value={45.2}\n              precision={1}\n              prefix=\"¥\"\n              valueStyle={{ color: '#faad14' }}\n            />\n          </Card>\n        </Col>\n        <Col xs={24} sm={12} md={8} lg={4}>\n          <Card>\n            <Statistic\n              title=\"售币单价\"\n              value={0.85}\n              precision={2}\n              prefix=\"¥\"\n              valueStyle={{ color: '#f5222d' }}\n            />\n          </Card>\n        </Col>\n        <Col xs={24} sm={12} md={8} lg={4}>\n          <Card>\n            <Statistic\n              title=\"售币数\"\n              value={15680}\n              suffix=\"币\"\n              valueStyle={{ color: '#13c2c2' }}\n            />\n          </Card>\n        </Col>\n      </Row>\n\n      <Row gutter={[16, 16]} style={{ marginBottom: 24 }}>\n        <Col xs={24} sm={12} md={8} lg={4}>\n          <Card>\n            <Statistic\n              title=\"存奖票数\"\n              value={3250}\n              suffix=\"张\"\n              valueStyle={{ color: '#1890ff' }}\n            />\n          </Card>\n        </Col>\n        <Col xs={24} sm={12} md={8} lg={4}>\n          <Card>\n            <Statistic\n              title=\"回收礼品数\"\n              value={128}\n              suffix=\"件\"\n              valueStyle={{ color: '#52c41a' }}\n            />\n          </Card>\n        </Col>\n        <Col xs={24} sm={12} md={8} lg={4}>\n          <Card>\n            <Statistic\n              title=\"新增会员\"\n              value={28}\n              suffix=\"人\"\n              valueStyle={{ color: '#722ed1' }}\n            />\n          </Card>\n        </Col>\n        <Col xs={24} sm={12} md={8} lg={4}>\n          <Card>\n            <Statistic\n              title=\"到店会员\"\n              value={156}\n              suffix=\"人\"\n              valueStyle={{ color: '#faad14' }}\n            />\n          </Card>\n        </Col>\n        <Col xs={24} sm={12} md={8} lg={4}>\n          <Card>\n            <Statistic\n              title=\"复购会员\"\n              value={89}\n              suffix=\"人\"\n              valueStyle={{ color: '#f5222d' }}\n            />\n          </Card>\n        </Col>\n        <Col xs={24} sm={12} md={8} lg={4}>\n          <Card>\n            <Statistic\n              title=\"大项目人数\"\n              value={268}\n              suffix=\"人\"\n              valueStyle={{ color: '#13c2c2' }}\n            />\n          </Card>\n        </Col>\n      </Row>\n\n      <Row gutter={[16, 16]} style={{ marginBottom: 24 }}>\n        <Col xs={24} sm={12} md={8} lg={4}>\n          <Card>\n            <Statistic\n              title=\"团购核销金额\"\n              value={5680}\n              precision={2}\n              prefix=\"¥\"\n              valueStyle={{ color: '#1890ff' }}\n            />\n          </Card>\n        </Col>\n        <Col xs={24} sm={12} md={8} lg={4}>\n          <Card>\n            <Statistic\n              title=\"耗币数\"\n              value={12850}\n              suffix=\"币\"\n              valueStyle={{ color: '#52c41a' }}\n            />\n          </Card>\n        </Col>\n        <Col xs={24} sm={12} md={8} lg={4}>\n          <Card>\n            <Statistic\n              title=\"兑奖票数\"\n              value={2150}\n              suffix=\"张\"\n              valueStyle={{ color: '#722ed1' }}\n            />\n          </Card>\n        </Col>\n        <Col xs={24} sm={12} md={8} lg={4}>\n          <Card>\n            <Statistic\n              title=\"兑换礼品数\"\n              value={326}\n              suffix=\"件\"\n              valueStyle={{ color: '#faad14' }}\n            />\n          </Card>\n        </Col>\n        <Col xs={24} sm={12} md={8} lg={4}>\n          <Card>\n            <Statistic\n              title=\"设备在线率\"\n              value={92}\n              suffix=\"%\"\n              valueStyle={{ color: '#f5222d' }}\n            />\n          </Card>\n        </Col>\n        <Col xs={24} sm={12} md={8} lg={4}>\n          <Card>\n            <Statistic\n              title=\"会员卡余额\"\n              value={156800}\n              precision={2}\n              prefix=\"¥\"\n              valueStyle={{ color: '#13c2c2' }}\n            />\n          </Card>\n        </Col>\n      </Row>\n\n      {/* 趋势分析 */}\n      <Row gutter={[16, 16]} style={{ marginBottom: 24 }}>\n        <Col xs={24} lg={12}>\n          <Card>\n            <Tabs activeKey={trendTab} onChange={setTrendTab} items={trendTabItems} />\n            <ResponsiveContainer width=\"100%\" height={300}>\n              <LineChart data={trendData}>\n                <CartesianGrid strokeDasharray=\"3 3\" />\n                <XAxis dataKey=\"name\" />\n                <YAxis yAxisId=\"left\" />\n                <YAxis yAxisId=\"right\" orientation=\"right\" />\n                <Tooltip />\n                <Legend />\n                <Line yAxisId=\"left\" type=\"monotone\" dataKey={trendTab} name={trendTab === 'revenue' ? '营业额' : trendTab === 'coin' ? '耗币数' : '会员数'} stroke=\"#1890ff\" strokeWidth={2} />\n              </LineChart>\n            </ResponsiveContainer>\n          </Card>\n        </Col>\n        <Col xs={24} lg={12}>\n          <Card>\n            <Tabs activeKey={revenueTab} onChange={setRevenueTab} items={revenueTabItems} />\n            <ResponsiveContainer width=\"100%\" height={300}>\n              <PieChart>\n                <Pie\n                  data={revenueTab === 'payment' ? revenueByPayment : revenueByChannel}\n                  cx=\"50%\"\n                  cy=\"50%\"\n                  innerRadius={60}\n                  outerRadius={100}\n                  paddingAngle={5}\n                  dataKey=\"value\"\n                  label={({ name, value }) => `${name} ${value}%`}\n                >\n                  {(revenueTab === 'payment' ? revenueByPayment : revenueByChannel).map((entry, index) => (\n                    <Cell key={`cell-${index}`} fill={entry.color} />\n                  ))}\n                </Pie>\n                <Tooltip />\n              </PieChart>\n            </ResponsiveContainer>\n          </Card>\n        </Col>\n      </Row>\n\n      {/* 门店排名和机台概况 */}\n      <Row gutter={[16, 16]} style={{ marginBottom: 24 }}>\n        <Col xs={24} lg={12}>\n          <Card>\n            <Tabs activeKey={storeTab} onChange={setStoreTab} items={storeTabItems} />\n            <Table\n              dataSource={storeRankingData}\n              columns={storeColumns}\n              pagination={false}\n              size=\"small\"\n            />\n          </Card>\n        </Col>\n        <Col xs={24} lg={12}>\n          <Card>\n            <Tabs activeKey={machineTab} onChange={setMachineTab} items={machineTabItems} />\n            <ResponsiveContainer width=\"100%\" height={250}>\n              <PieChart>\n                <Pie\n                  data={machineData}\n                  cx=\"50%\"\n                  cy=\"50%\"\n                  outerRadius={100}\n                  dataKey=\"value\"\n                  label={({ name, value }) => `${name} ${value}%`}\n                >\n                  {machineData.map((entry, index) => (\n                    <Cell key={`cell-${index}`} fill={entry.color} />\n                  ))}\n                </Pie>\n                <Tooltip />\n              </PieChart>\n            </ResponsiveContainer>\n          </Card>\n        </Col>\n      </Row>\n\n      {/* 机台投币明细 */}\n      <Card style={{ marginBottom: 24 }}>\n        <Tabs activeKey={machineDetailTab} onChange={setMachineDetailTab} items={machineDetailTabItems} />\n        <Table\n          dataSource={machineDetailData.filter(item => machineDetailTab === 'all' || item.type === machineDetailTab)}\n          columns={machineColumns}\n          pagination={{ pageSize: 5 }}\n          size=\"small\"\n        />\n      </Card>\n\n      {/* 会员排行和大项目 */}\n      <Row gutter={[16, 16]} style={{ marginBottom: 24 }}>\n        <Col xs={24} lg={12}>\n          <Card>\n            <Tabs activeKey={memberTab} onChange={setMemberTab} items={memberTabItems} />\n            <Table\n              dataSource={memberTab === 'recharge' ? memberByRecharge : memberByCoin}\n              columns={memberColumns}\n              pagination={false}\n              size=\"small\"\n            />\n          </Card>\n        </Col>\n        <Col xs={24} lg={12}>\n          <Card title=\"大项目概况\">\n            <ResponsiveContainer width=\"100%\" height={250}>\n              <BarChart data={projectData} layout=\"vertical\">\n                <CartesianGrid strokeDasharray=\"3 3\" />\n                <XAxis type=\"number\" />\n                <YAxis dataKey=\"name\" type=\"category\" width={80} />\n                <Tooltip />\n                <Bar dataKey=\"value\" name=\"营收\" fill=\"#1890ff\" />\n              </BarChart>\n            </ResponsiveContainer>\n          </Card>\n        </Col>\n      </Row>\n\n      {/* 知识库和运营资讯 */}\n      <Row gutter={[16, 16]}>\n        <Col xs={24} lg={12}>\n          <Card title=\"知识库\">\n            <Space direction=\"vertical\" style={{ width: '100%' }}>\n              {knowledgeData.map((item, index) => (\n                <div key={index} style={{ padding: '12px 0', borderBottom: index < knowledgeData.length - 1 ? '1px solid #f0f0f0' : 'none' }}>\n                  <Text strong>{item.title}</Text>\n                  <div style={{ marginTop: 4 }}>\n                    <Text type=\"secondary\">{item.date}</Text>\n                  </div>\n                  <div style={{ marginTop: 4 }}>\n                    <Text>{item.content}</Text>\n                  </div>\n                </div>\n              ))}\n            </Space>\n          </Card>\n        </Col>\n        <Col xs={24} lg={12}>\n          <Card title=\"运营资讯\">\n            <Space direction=\"vertical\" style={{ width: '100%' }}>\n              {newsData.map((item, index) => (\n                <div key={index} style={{ padding: '12px 0', borderBottom: index < newsData.length - 1 ? '1px solid #f0f0f0' : 'none' }}>\n                  <Tag color={item.color}>{item.type}</Tag>\n                  <Text style={{ marginLeft: 8 }}>{item.title}</Text>\n                  <Text type=\"secondary\" style={{ float: 'right' }}>{item.date}</Text>\n                </div>\n              ))}\n            </Space>\n          </Card>\n        </Col>\n      </Row>\n    </div>\n  );\n};\n\nexport default Analysis;\n",
+      "__content": "import React, { useState } from 'react';\nimport {\n  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,\n  PieChart, Pie, Cell, BarChart, Bar,\n} from 'recharts';\nimport {\n  Card, Row, Col, Statistic, Table, Tag, Space, Button, Badge, Typography, Tabs,\n  DatePicker, Select, Radio, Tree, Divider,\n} from 'antd';\nimport {\n  ArrowUpOutlined, ArrowDownOutlined, ShoppingCartOutlined, UserOutlined,\n  DesktopOutlined, GiftOutlined, ExportOutlined, PrinterOutlined, ReloadOutlined,\n  ShopOutlined, HomeOutlined,\n} from '@ant-design/icons';\nimport type { TabsProps } from 'antd';\nimport type { DataNode } from 'antd/es/tree';\n\nconst { Title, Text } = Typography;\nconst { RangePicker } = DatePicker;\nconst { Option } = Select;\n\n// 门店树型数据\nconst storeTreeData: DataNode[] = [\n  { title: '全部门店', key: 'all', icon: <ShopOutlined /> },\n  {\n    title: '华东区', key: 'east',\n    children: [\n      { title: '万达广场店', key: 'store1' },\n      { title: '银泰城店', key: 'store2' },\n      { title: '龙湖天街店', key: 'store3' },\n    ],\n  },\n  {\n    title: '华南区', key: 'south',\n    children: [\n      { title: '万象城店', key: 'store4' },\n      { title: '大悦城店', key: 'store5' },\n    ],\n  },\n  {\n    title: '华北区', key: 'north',\n    children: [\n      { title: '朝阳大悦城店', key: 'store6' },\n      { title: '西单店', key: 'store7' },\n    ],\n  },\n];\n\n// 趋势数据\nconst trendData = [\n  { name: '周一', revenue: 12000, coin: 8500, member: 320 },\n  { name: '周二', revenue: 15000, coin: 9200, member: 380 },\n  { name: '周三', revenue: 18000, coin: 10500, member: 450 },\n  { name: '周四', revenue: 14000, coin: 8800, member: 360 },\n  { name: '周五', revenue: 22000, coin: 12800, member: 520 },\n  { name: '周六', revenue: 28000, coin: 15600, member: 680 },\n  { name: '周日', revenue: 25000, coin: 14200, member: 610 },\n];\n\n// 营收构成数据 - 按渠道\nconst revenueByChannel = [\n  { name: '线下门店', value: 45, color: '#1890ff' },\n  { name: '微信小程序', value: 30, color: '#52c41a' },\n  { name: '美团/大众点评', value: 15, color: '#faad14' },\n  { name: '抖音', value: 10, color: '#f5222d' },\n];\n\n// 机台投币数据\nconst machineData = [\n  { name: '彩票机', value: 30, color: '#722ed1' },\n  { name: '礼品机', value: 25, color: '#13c2c2' },\n  { name: '中性机', value: 20, color: '#eb2f96' },\n  { name: '模拟机', value: 15, color: '#f5222d' },\n  { name: '大项目', value: 10, color: '#fa8c16' },\n];\n\n// 门店排名数据\nconst storeRankingData = [\n  { key: '1', rank: 1, name: '万达广场店', revenue: '¥45,280', coin: '¥32,580', growth: '+12.5%', status: 'up' },\n  { key: '2', rank: 2, name: '银泰城店', revenue: '¥38,560', coin: '¥28,960', growth: '+8.3%', status: 'up' },\n  { key: '3', rank: 3, name: '龙湖天街店', revenue: '¥32,180', coin: '¥25,680', growth: '-2.1%', status: 'down' },\n];\n\n// 机台投币明细数据\nconst machineDetailData = [\n  { key: '1', no: 1, name: '抓娃娃机-A01', code: 'M001', coins: 1250, gifts: 45, faults: 0, status: 'normal', type: '礼品机' },\n  { key: '2', no: 2, name: '赛车模拟器-B02', code: 'M002', coins: 980, gifts: 0, faults: 1, status: 'warning', type: '模拟机' },\n];\n\n// 会员排行数据\nconst memberByRecharge = [\n  { key: '1', rank: 1, id: 'M10001', level: '钻石会员', amount: '¥12,580', count: 45, lastTime: '2026-03-10' },\n  { key: '2', rank: 2, id: 'M10023', level: '钻石会员', amount: '¥10,230', count: 38, lastTime: '2026-03-10' },\n];\n\n// 大项目数据\nconst projectData = [\n  { name: '淘气堡', value: 8500 },\n  { name: '电玩区', value: 7200 },\n  { name: 'VR体验', value: 5800 },\n];\n\nconst Analysis: React.FC = () => {\n  const [selectedStores, setSelectedStores] = useState<string[]>(['all']);\n  const [comparePeriod, setComparePeriod] = useState('lastYear');\n  const [trendTab, setTrendTab] = useState('revenue');\n  const [revenueTab, setRevenueTab] = useState('channel');\n\n  // 快捷入口按钮\n  const quickEntries = [\n    { icon: <ShoppingCartOutlined />, label: '快速收银', color: '#1890ff' },\n    { icon: <UserOutlined />, label: '快速办卡', color: '#52c41a' },\n    { icon: <DesktopOutlined />, label: '设备报修', color: '#faad14' },\n    { icon: <GiftOutlined />, label: '礼品兑换', color: '#f5222d' },\n    { icon: <ExportOutlined />, label: '数据导出', color: '#722ed1' },\n    { icon: <PrinterOutlined />, label: '打印小票', color: '#13c2c2' },\n  ];\n\n  // 模块标题组件\n  const ModuleTitle: React.FC<{ icon: string; title: string; color: string }> = ({ icon, title, color }) => (\n    <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>\n      <div style={{ width: 4, height: 20, background: color, borderRadius: 2 }} />\n      <span style={{ fontSize: 18, fontWeight: 'bold', color: '#1f2937' }}>{icon} {title}</span>\n    </div>\n  );\n\n  // 趋势分析 Tab\n  const trendTabItems: TabsProps['items'] = [\n    { key: 'revenue', label: '营业额' },\n    { key: 'coin', label: '耗币数' },\n    { key: 'member', label: '会员' },\n  ];\n\n  // 营收构成 Tab\n  const revenueTabItems: TabsProps['items'] = [\n    { key: 'channel', label: '按渠道' },\n    { key: 'tag', label: '按经营标签' },\n    { key: 'package', label: '按套餐' },\n    { key: 'customer', label: '按顾客' },\n    { key: 'payment', label: '按支付方式' },\n  ];\n\n  return (\n    <div style={{ display: 'flex', minHeight: '100vh', background: '#f0f2f5' }}>\n      {/* 左侧门店树 */}\n      <div style={{ width: 240, background: '#fff', borderRight: '1px solid #f0f0f0', padding: 16 }}>\n        <Title level={5} style={{ marginBottom: 16 }}>\n          <ShopOutlined style={{ marginRight: 8, color: '#1890ff' }} />\n          门店选择\n        </Title>\n        <Tree\n          checkable\n          defaultExpandedKeys={['east', 'south', 'north']}\n          defaultCheckedKeys={['all']}\n          treeData={storeTreeData}\n          onCheck={(checkedKeys) => setSelectedStores(checkedKeys as string[])}\n        />\n      </div>\n\n      {/* 右侧内容区 */}\n      <div style={{ flex: 1, padding: 24 }}>\n        {/* 顶部筛选栏 */}\n        <Card style={{ marginBottom: 24 }}>\n          <Row gutter={[16, 16]} align=\"middle\">\n            <Col>\n              <Space>\n                <span>营业日期：</span>\n                <Radio.Group defaultValue=\"today\">\n                  <Radio.Button value=\"today\">今日</Radio.Button>\n                  <Radio.Button value=\"yesterday\">昨日</Radio.Button>\n                  <Radio.Button value=\"week\">本周</Radio.Button>\n                  <Radio.Button value=\"lastweek\">上周</Radio.Button>\n                  <Radio.Button value=\"month\">本月</Radio.Button>\n                  <Radio.Button value=\"lastmonth\">上月</Radio.Button>\n                  <Radio.Button value=\"year\">本年</Radio.Button>\n                </Radio.Group>\n              </Space>\n            </Col>\n            <Col>\n              <RangePicker />\n            </Col>\n            <Col flex=\"auto\" style={{ textAlign: 'right' }}>\n              <Space>\n                <Text>对比：</Text>\n                <Select value={comparePeriod} onChange={setComparePeriod} style={{ width: 120 }}>\n                  <Option value=\"lastYear\">去年同期</Option>\n                  <Option value=\"lastMonth\">上月同期</Option>\n                  <Option value=\"lastWeek\">上周同期</Option>\n                </Select>\n                <Button icon={<ReloadOutlined />}>刷新</Button>\n              </Space>\n            </Col>\n          </Row>\n        </Card>\n\n        {/* 快捷入口 */}\n        <Card style={{ marginBottom: 24 }}>\n          <Row gutter={[16, 16]}>\n            {quickEntries.map((item, index) => (\n              <Col key={index} xs={12} sm={8} md={4}>\n                <Button\n                  type=\"dashed\"\n                  style={{\n                    width: '100%', height: 80, display: 'flex', flexDirection: 'column',\n                    alignItems: 'center', justifyContent: 'center', borderColor: item.color, color: item.color,\n                  }}\n                >\n                  <div style={{ fontSize: 24, marginBottom: 8 }}>{item.icon}</div>\n                  <div>{item.label}</div>\n                </Button>\n              </Col>\n            ))}\n          </Row>\n        </Card>\n\n        {/* 18个指标卡片 */}\n        <Row gutter={[12, 12]} style={{ marginBottom: 24 }}>\n          <Col xs={12} sm={8} md={6} lg={4}>\n            <Card><Statistic title=\"营业额\" value={8888} prefix=\"¥\" valueStyle={{ color: '#1890ff' }} /></Card>\n          </Col>\n          <Col xs={12} sm={8} md={6} lg={4}>\n            <Card><Statistic title=\"会员客单价\" value={88} prefix=\"¥\" valueStyle={{ color: '#52c41a' }} /></Card>\n          </Col>\n          <Col xs={12} sm={8} md={6} lg={4}>\n            <Card><Statistic title=\"售币单价\" value={0.255} prefix=\"¥\" valueStyle={{ color: '#faad14' }} /></Card>\n          </Col>\n          <Col xs={12} sm={8} md={6} lg={4}>\n            <Card><Statistic title=\"售币数\" value={88} suffix=\"币\" valueStyle={{ color: '#722ed1' }} /></Card>\n          </Col>\n          <Col xs={12} sm={8} md={6} lg={4}>\n            <Card><Statistic title=\"存票票数\" value={88} suffix=\"张\" valueStyle={{ color: '#13c2c2' }} /></Card>\n          </Col>\n          <Col xs={12} sm={8} md={6} lg={4}>\n            <Card><Statistic title=\"回收礼品数\" value={88} suffix=\"件\" valueStyle={{ color: '#eb2f96' }} /></Card>\n          </Col>\n          <Col xs={12} sm={8} md={6} lg={4}>\n            <Card><Statistic title=\"新增会员\" value={88} suffix=\"人\" valueStyle={{ color: '#1890ff' }} /></Card>\n          </Col>\n          <Col xs={12} sm={8} md={6} lg={4}>\n            <Card><Statistic title=\"到店会员\" value={88} suffix=\"人\" valueStyle={{ color: '#52c41a' }} /></Card>\n          </Col>\n          <Col xs={12} sm={8} md={6} lg={4}>\n            <Card><Statistic title=\"复购会员\" value={88} suffix=\"人\" valueStyle={{ color: '#faad14' }} /></Card>\n          </Col>\n          <Col xs={12} sm={8} md={6} lg={4}>\n            <Card><Statistic title=\"大项目人数\" value={88} suffix=\"人\" valueStyle={{ color: '#722ed1' }} /></Card>\n          </Col>\n          <Col xs={12} sm={8} md={6} lg={4}>\n            <Card><Statistic title=\"团购核销金额\" value={88} prefix=\"¥\" valueStyle={{ color: '#13c2c2' }} /></Card>\n          </Col>\n          <Col xs={12} sm={8} md={6} lg={4}>\n            <Card><Statistic title=\"耗币数\" value={88} suffix=\"币\" valueStyle={{ color: '#eb2f96' }} /></Card>\n          </Col>\n          <Col xs={12} sm={8} md={6} lg={4}>\n            <Card><Statistic title=\"兑奖票数\" value={88} suffix=\"张\" valueStyle={{ color: '#1890ff' }} /></Card>\n          </Col>\n          <Col xs={12} sm={8} md={6} lg={4}>\n            <Card><Statistic title=\"兑换礼品数\" value={88} suffix=\"件\" valueStyle={{ color: '#52c41a' }} /></Card>\n          </Col>\n          <Col xs={12} sm={8} md={6} lg={4}>\n            <Card><Statistic title=\"设备在线率\" value={88} suffix=\"%\" valueStyle={{ color: '#faad14' }} /></Card>\n          </Col>\n          <Col xs={12} sm={8} md={6} lg={4}>\n            <Card><Statistic title=\"会员卡余额\" value={88} prefix=\"¥\" valueStyle={{ color: '#722ed1' }} /></Card>\n          </Col>\n          <Col xs={12} sm={8} md={6} lg={4}>\n            <Card><Statistic title=\"免费币\" value={5450} suffix=\"币\" valueStyle={{ color: '#13c2c2' }} /></Card>\n          </Col>\n          <Col xs={12} sm={8} md={6} lg={4}>\n            <Card><Statistic title=\"散客客单价\" value={88} prefix=\"¥\" valueStyle={{ color: '#eb2f96' }} /></Card>\n          </Col>\n        </Row>\n\n        {/* 门店总览 */}\n        <Card title=\"门店总览\" style={{ marginBottom: 24 }}>\n          <Table\n            dataSource={storeRankingData}\n            columns={[\n              { title: '排名', dataIndex: 'rank', key: 'rank', width: 60 },\n              { title: '门店名称', dataIndex: 'name', key: 'name' },\n              { title: '营业收入', dataIndex: 'revenue', key: 'revenue' },\n              { title: '耗币数', dataIndex: 'coin', key: 'coin' },\n              { title: '环比增长', dataIndex: 'growth', key: 'growth', render: (text: string, record: any) => (\n                <span style={{ color: record.status === 'up' ? '#52c41a' : '#f5222d' }}>\n                  {record.status === 'up' ? <ArrowUpOutlined /> : <ArrowDownOutlined />} {text}\n                </span>\n              )},\n            ]}\n            pagination={false}\n            size=\"small\"\n          />\n        </Card>\n\n        {/* 趋势分析 */}\n        <Card style={{ marginBottom: 24 }}>\n          <Tabs activeKey={trendTab} onChange={setTrendTab} items={trendTabItems} />\n          <ResponsiveContainer width=\"100%\" height={300}>\n            <LineChart data={trendData}>\n              <CartesianGrid strokeDasharray=\"3 3\" />\n              <XAxis dataKey=\"name\" />\n              <YAxis />\n              <Tooltip />\n              <Legend />\n              <Line type=\"monotone\" dataKey={trendTab} stroke=\"#1890ff\" strokeWidth={2} />\n            </LineChart>\n          </ResponsiveContainer>\n        </Card>\n\n        {/* 营业额构成 */}\n        <Row gutter={[16, 16]}>\n          <Col xs={24} lg={12}>\n            <Card>\n              <Tabs activeKey={revenueTab} onChange={setRevenueTab} items={revenueTabItems} />\n              <ResponsiveContainer width=\"100%\" height={280}>\n                <PieChart>\n                  <Pie\n                    data={revenueByChannel}\n                    cx=\"50%\" cy=\"50%\" innerRadius={60} outerRadius={100}\n                    paddingAngle={5} dataKey=\"value\"\n                    label={({ name, value }) => `${name} ${value}%`}\n                  >\n                    {revenueByChannel.map((entry, index) => (\n                      <Cell key={`cell-${index}`} fill={entry.color} />\n                    ))}\n                  </Pie>\n                  <Tooltip />\n                </PieChart>\n              </ResponsiveContainer>\n            </Card>\n          </Col>\n          <Col xs={24} lg={12}>\n            <Card title=\"机台投币概况\">\n              <ResponsiveContainer width=\"100%\" height={280}>\n                <PieChart>\n                  <Pie\n                    data={machineData}\n                    cx=\"50%\" cy=\"50%\" outerRadius={100}\n                    dataKey=\"value\" label={({ name, value }) => `${name} ${value}%`}\n                  >\n                    {machineData.map((entry, index) => (\n                      <Cell key={`cell-${index}`} fill={entry.color} />\n                    ))}\n                  </Pie>\n                  <Tooltip />\n                </PieChart>\n              </ResponsiveContainer>\n            </Card>\n          </Col>\n        </Row>\n      </div>\n    </div>\n  );\n};\n\nexport default Analysis;",
       "__isJSFile": true,
       "__absFile": "C:/Users/Administrator/.openclaw/workspace/playground-management-system/src/pages/Dashboard/Analysis/index.tsx"
     },
@@ -6953,7 +6955,9 @@
   "globalJS": [],
   "overridesCSS": [],
   "bundler": "webpack",
-  "git": {},
+  "git": {
+    "originUrl": "https://github.com/jerseychen/playground-management-system.git"
+  },
   "framework": "react",
   "typescript": {
     "tsVersion": "5.9.3",
